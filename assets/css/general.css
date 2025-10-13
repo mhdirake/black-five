@@ -1,0 +1,16 @@
+body {
+  padding: 0 !important;
+  margin: 0;
+  box-sizing: border-box;
+  position: relative;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  letter-spacing: 0 !important;
+}
+
+* {
+  scroll-behavior: smooth;
+}
