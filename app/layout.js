@@ -7,7 +7,7 @@ import ThemeSwitcherContextProvider from '@/context/ThemeSwitcherContextProvider
 import { ToastContainer } from 'react-toastify';
 
 export const metadata = {
-  title: '',
+  title: 'Mehdi Rashid',
   description: '',
 };
 
