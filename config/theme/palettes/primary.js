@@ -16,7 +16,7 @@ const palette = {
     main: "#FF9C3F",
     light: "#42a5f5",
     dark: "#FF7E06",
-    contrastText: "#000000",
+    contrastText: "#ffffff",
   },
 
   secondary: {
@@ -40,12 +40,11 @@ const palette = {
     secondaryHover: "#FF7E06",
     gold: "#FFB804",
     text: "#D9D9D9"
-    
   },
 
   background: {
     paper: "#1D1F3F",
-    default: "#0F1020",
+    default: "#000000",
     box: "#1D1F3F"
   },
 
