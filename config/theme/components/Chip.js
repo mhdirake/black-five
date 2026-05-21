@@ -31,7 +31,7 @@ export const MuiChip = {
           aspectRatio: "1/1",
 
           ".MuiChip-label": {
-            padding: theme.spacing(0.5),
+            padding: theme.spacing(0.5, 2),
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

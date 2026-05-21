@@ -1,0 +1,213 @@
+"use client";
+
+import { Box, Container, Grid2, Stack, Typography, styled } from "@mui/material";
+
+export const HeroSection = styled(Box)(({ theme }) => ({
+  position: "relative",
+  minHeight: "calc(100vh - 76px)",
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(9, 0, 10),
+
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: "-30%",
+    pointerEvents: "none",
+    background: `radial-gradient(circle at 16% 22%, ${theme.palette.info.main}99 0, transparent 24%),
+      radial-gradient(circle at 76% 28%, ${theme.palette.secondary.main}70 0, transparent 22%),
+      radial-gradient(circle at 52% 82%, ${theme.palette.primary.main}80 0, transparent 26%)`,
+    backgroundSize: "140% 140%",
+    filter: "blur(8px)",
+    opacity: 0.95,
+    animation: "heroBackgroundFloat 9s ease-in-out infinite alternate",
+  },
+
+  [theme.breakpoints.down("md")]: {
+    minHeight: "auto",
+    padding: theme.spacing(6, 0, 7),
+  },
+
+  "@keyframes heroBackgroundFloat": {
+    "0%": {
+      transform: "translate3d(-7%, -4%, 0) rotate(0deg) scale(1)",
+      backgroundPosition: "0% 35%",
+    },
+    "50%": {
+      transform: "translate3d(6%, 4%, 0) rotate(8deg) scale(1.08)",
+      backgroundPosition: "70% 65%",
+    },
+    "100%": {
+      transform: "translate3d(3%, -7%, 0) rotate(-6deg) scale(1.12)",
+      backgroundPosition: "100% 20%",
+    },
+  },
+}));
+
+export const AuctionPreviewCard = styled(Box)(({ theme }) => ({
+  width: "100%",
+  maxWidth: 430,
+  padding: theme.spacing(2.5),
+  borderRadius: 8,
+  border: "1px solid",
+  borderColor: theme.palette.divider,
+  backdropFilter: "blur(22px)",
+  WebkitBackdropFilter: "blur(22px)",
+}));
+
+export const AuctionPreviewMedia = styled(Box)(({ theme }) => ({
+  position: "relative",
+  minHeight: 158,
+  borderRadius: 8,
+  overflow: "hidden",
+  display: "flex",
+  img: {
+    objectFit: "contain",
+    width: "100%",
+    height: "auto"
+  },
+}));
+
+export const HeroContainer = styled(Container)(({ theme }) => ({
+  position: "relative",
+  zIndex: 1,
+  color: theme.palette.text.primary,
+}));
+
+export const HeroGrid = styled(Grid2)(({ theme }) => ({
+  alignItems: "center",
+
+  [theme.breakpoints.down("md")]: {
+    rowGap: theme.spacing(5),
+  },
+}));
+
+export const HeroContent = styled(Stack)(({ theme }) => ({
+  alignItems: "flex-start",
+  maxWidth: 720,
+  color: theme.palette.text.primary,
+}));
+
+export const HeroBadge = styled(Box)(({ theme }) => ({
+  alignItems: "center",
+  display: "flex",
+  gap: theme.spacing(1),
+  minHeight: 3,
+  padding: theme.spacing(0.5, 1.5),
+  borderRadius: 8,
+  color: theme.palette.secondary.main,
+  backgroundColor: "rgba(253, 197, 0, 0.08)",
+  border: "1px solid rgba(253, 197, 0, 0.25)",
+}));
+
+export const HeroTitle = styled(Typography)(({ theme }) => ({
+  ...theme.typography.h1,
+}));
+
+export const HeroTitleAccent = styled(Box)(({ theme }) => ({
+  color: theme.palette.secondary.main,
+  fontWeight: theme.typography.h1.fontWeight,
+}));
+
+export const HeroDescription = styled(Typography)(({ theme }) => ({
+  maxWidth: 620,
+  color: theme.palette.text.text,
+  ...theme.typography.h6,
+  lineHeight: 2,
+}));
+
+export const HeroActions = styled(Stack)(({ theme }) => ({
+  flexDirection: "row",
+  gap: theme.spacing(1.5),
+  marginTop: theme.spacing(1),
+
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+    flexDirection: "column",
+
+    ".MuiButton-root": {
+      width: "100%",
+    },
+  },
+}));
+
+export const HeroStatsGrid = styled(Grid2)(({ theme }) => ({
+  width: "100%",
+  maxWidth: 560,
+  marginTop: theme.spacing(2),
+}));
+
+export const HeroStatCard = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(1.75),
+  borderRadius: 8,
+  border: "1px solid",
+  borderColor: theme.palette.divider,
+  backdropFilter: "blur(14px)",
+  WebkitBackdropFilter: "blur(14px)",
+}));
+
+export const HeroStatValue = styled(Typography)(({ theme }) => ({
+  color: theme.palette.secondary.main,
+  ...theme.typography.h4,
+}));
+
+export const HeroStatLabel = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(0.75),
+  color: theme.palette.text.text,
+  ...theme.typography.subtitle1,
+}));
+
+export const HeroVisual = styled(Box)(({ theme }) => ({
+  minHeight: 520,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+
+  [theme.breakpoints.down("md")]: {
+    minHeight: 380,
+  },
+}));
+
+export const AuctionPreviewHeader = styled(Stack)(({ theme }) => ({
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: theme.spacing(2),
+  marginBottom: theme.spacing(2.5),
+}));
+
+export const AuctionPreviewHeading = styled(Typography)(({ theme }) => ({
+  ...theme.typography.h6,
+}));
+
+export const AuctionPreviewTitle = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(2.5),
+  ...theme.typography.h5,
+}));
+
+export const AuctionPreviewDescription = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  color: theme.palette.text.text,
+  ...theme.typography.subtitle2,
+}));
+
+export const AuctionInfoGrid = styled(Grid2)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
+
+export const AuctionInfoCard = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(1.5),
+  borderRadius: 8,
+  border: `1px solid ${theme.palette.grey[10]}`,
+}));
+
+export const AuctionInfoLabel = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.disabled,
+  ...theme.typography.subtitle1,
+}));
+
+export const AuctionInfoValue = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(0.75),
+  color: theme.palette.text.primary,
+  ...theme.typography.subtitle1,
+}));

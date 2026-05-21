@@ -4,6 +4,7 @@ import shadows from "./shadows";
 import typography from "./typography";
 
 const theme = {
+  direction: "rtl",
   palette,
   components,
   typography,

@@ -27,10 +27,24 @@ export const typography = {
 
   h1: {
     fontSize: "32px",
+    fontWeight: 600,
+    lineHeight: 1.35,
+    "@media (max-width: 900px)": {
+      fontSize: "28px",
+    },
+    "@media (max-width: 600px)": {
+      fontSize: "24px",
+    },
   },
 
   h2: {
     fontSize: "30px",
+    "@media (max-width: 900px)": {
+      fontSize: "24px",
+    },
+    "@media (max-width: 600px)": {
+      fontSize: "22px",
+    },
   },
 
   h3: {
