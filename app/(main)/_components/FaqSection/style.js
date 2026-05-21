@@ -2,9 +2,12 @@
 
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Grid2, Stack, Typography, styled } from "@mui/material";
 
+import { sectionAnimatedBackground } from "../../style";
+
 export const SectionRoot = styled(Box)(({ theme }) => ({
   padding: theme.spacing(8, 0),
   position: "relative",
+  ...sectionAnimatedBackground(theme, { opacity: 0.4, duration: "17s" }),
 
   "&::before": {
     content: '""',
@@ -19,6 +22,8 @@ export const SectionRoot = styled(Box)(({ theme }) => ({
 }));
 
 export const FaqContainer = styled(Container)(() => ({
+  position: "relative",
+  zIndex: 1,
   overflow: "hidden",
 }));
 

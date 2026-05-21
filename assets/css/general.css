@@ -5,6 +5,11 @@
   --app-height: 100dvh;
 }
 
+html {
+  scroll-behavior: auto;
+  scroll-padding-top: 88px;
+}
+
 body {
   padding: 0 !important;
   margin: 0;
@@ -67,8 +72,10 @@ label,
   background: #eeeeee;
 }
 
-* {
-  scroll-behavior: smooth;
+@media (max-width: 900px) {
+  html {
+    scroll-padding-top: 72px;
+  }
 }
 
 .toast-ltr .Toastify__toast-body {

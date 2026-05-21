@@ -2,45 +2,19 @@
 
 import { Box, Container, Grid2, Stack, Typography, styled } from "@mui/material";
 
+import { sectionAnimatedBackground } from "../../style";
+
 export const HeroSection = styled(Box)(({ theme }) => ({
   position: "relative",
   minHeight: "calc(100vh - 76px)",
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(9, 0, 10),
-
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    inset: "-30%",
-    pointerEvents: "none",
-    background: `radial-gradient(circle at 16% 22%, ${theme.palette.info.main}99 0, transparent 24%),
-      radial-gradient(circle at 76% 28%, ${theme.palette.secondary.main}70 0, transparent 22%),
-      radial-gradient(circle at 52% 82%, ${theme.palette.primary.main}80 0, transparent 26%)`,
-    backgroundSize: "140% 140%",
-    filter: "blur(8px)",
-    opacity: 0.95,
-    animation: "heroBackgroundFloat 9s ease-in-out infinite alternate",
-  },
+  ...sectionAnimatedBackground(theme, { opacity: 0.7, duration: "13s" }),
 
   [theme.breakpoints.down("md")]: {
     minHeight: "auto",
     padding: theme.spacing(6, 0, 7),
-  },
-
-  "@keyframes heroBackgroundFloat": {
-    "0%": {
-      transform: "translate3d(-7%, -4%, 0) rotate(0deg) scale(1)",
-      backgroundPosition: "0% 35%",
-    },
-    "50%": {
-      transform: "translate3d(6%, 4%, 0) rotate(8deg) scale(1.08)",
-      backgroundPosition: "70% 65%",
-    },
-    "100%": {
-      transform: "translate3d(3%, -7%, 0) rotate(-6deg) scale(1.12)",
-      backgroundPosition: "100% 20%",
-    },
   },
 }));
 

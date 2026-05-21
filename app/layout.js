@@ -4,6 +4,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 import LocalizationProvider from '@/context/LocalizationProvider';
+import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import StoreProvider from '@/context/StoreProvider';
 import ThemeSwitcherContextProvider from '@/context/ThemeSwitcherContextProvider';
 import { DEFAULT_LOCALE, LOCALE_COOKIE, getDirection, isLocale } from '@/localization/config';
@@ -34,7 +35,9 @@ export default async function RootLayout({ children }) {
         <StoreProvider>
           <LocalizationProvider initialLocale={locale}>
             <ThemeSwitcherContextProvider>
-              {children}
+              <SmoothScrollProvider>
+                {children}
+              </SmoothScrollProvider>
             </ThemeSwitcherContextProvider>
           </LocalizationProvider>
         </StoreProvider>

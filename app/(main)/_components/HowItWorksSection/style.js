@@ -2,9 +2,12 @@
 
 import { Box, Container, Grid2, Stack, Typography, styled } from "@mui/material";
 
+import { sectionAnimatedBackground } from "../../style";
+
 export const SectionRoot = styled(Box)(({ theme }) => ({
   padding: theme.spacing(8, 0),
   position: "relative",
+  ...sectionAnimatedBackground(theme, { opacity: 0.42, duration: "15s" }),
 
   "&::before": {
     content: '""',
@@ -131,5 +134,7 @@ export const SummaryItem = styled(Stack)(({ theme }) => ({
 }));
 
 export const HowItWorksContainer = styled(Container)(() => ({
+  position: "relative",
+  zIndex: 1,
   overflow: "hidden",
 }));
