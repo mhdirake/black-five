@@ -4,7 +4,7 @@ export const MuiChip = {
       const background = theme?.palette?.[ownerState?.color]?.main + 10;
 
       return {
-        backgroundColor: background || "#f2f2f2",
+        backgroundColor: background || theme.palette.modules.chipFallback,
 
         "&.MuiChip-sizeMedium": {
           borderRadius: 5,

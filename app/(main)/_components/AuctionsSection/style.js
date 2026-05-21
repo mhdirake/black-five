@@ -63,7 +63,7 @@ export const TabsWrapper = styled(Stack)(({ theme }) => ({
   gap: theme.spacing(1),
   padding: theme.spacing(0.5),
   borderRadius: 18,
-  border: "1px solid rgba(255, 255, 255, 0.12)",
+  border: `1px solid ${theme.palette.modules.glassBorder}`,
 }));
 
 export const SliderShell = styled(Box)(({ theme }) => ({

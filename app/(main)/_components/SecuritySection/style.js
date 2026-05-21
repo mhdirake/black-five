@@ -64,8 +64,8 @@ export const SecurityIcon = styled(Box)(({ theme }) => ({
   placeItems: "center",
   borderRadius: 8,
   color: theme.palette.secondary.main,
-  backgroundColor: "rgba(253, 197, 0, 0.1)",
-  border: "1px solid rgba(253, 197, 0, 0.2)",
+  backgroundColor: theme.palette.modules.goldGlassStrong,
+  border: `1px solid ${theme.palette.modules.goldBorder}`,
 }));
 
 export const SecurityTitle = styled(Typography)(({ theme }) => ({
@@ -85,8 +85,8 @@ export const HighlightPanel = styled(Box)(({ theme }) => ({
   height: "100%",
   padding: theme.spacing(3),
   borderRadius: 8,
-  border: "1px solid rgba(255, 255, 255, 0.14)",
-  boxShadow: "0 18px 54px rgba(0, 14, 36, 0.32)",
+  border: `1px solid ${theme.palette.modules.glassBorderStrong}`,
+  boxShadow: theme.palette.modules.shadowGlass,
 }));
 
 export const HighlightTitle = styled(Typography)(({ theme }) => ({

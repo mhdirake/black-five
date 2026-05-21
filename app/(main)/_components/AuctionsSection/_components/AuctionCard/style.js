@@ -3,13 +3,12 @@
 import { Box, Stack, Typography, styled } from "@mui/material";
 
 export const CardRoot = styled(Box)(({ theme }) => ({
-  height: "100%",
   padding: theme.spacing(2),
   borderRadius: 8,
-  border: "1px solid rgba(255, 255, 255, 0.14)",
+  border: `1px solid ${theme.palette.modules.glassBorderStrong}`,
   backdropFilter: "blur(18px)",
   WebkitBackdropFilter: "blur(18px)",
-  boxShadow: "0 18px 54px rgba(0, 14, 36, 0.32)",
+  boxShadow: theme.palette.modules.shadowGlass,
 }));
 
 export const CardMedia = styled(Box)(({ theme }) => ({
@@ -55,7 +54,7 @@ export const CardMetaGrid = styled(Box)(({ theme }) => ({
 export const CardMetaItem = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1.25),
   borderRadius: 8,
-  backgroundColor: "rgba(0, 14, 36, 0.48)",
+  backgroundColor: theme.palette.modules.darkGlass,
   border: `1px solid ${theme.palette.grey[10]}`,
 }));
 

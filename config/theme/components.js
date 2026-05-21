@@ -12,6 +12,7 @@ import MuiTextField from "./components/TextField";
 import MuiFab from "./components/Fab";
 
 const components = {
+  ...MuiBaseLine,
   MuiButton,
   MuiSkeleton,
   MuiMenu,
@@ -20,7 +21,6 @@ const components = {
   MuiTabs,
   MuiContainer,
   MuiDrawer,
-  MuiBaseLine,
   MuiCard,
   MuiChip,
   MuiFab,

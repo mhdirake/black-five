@@ -6,7 +6,7 @@ const MuiTextField = {
       input: {
         '&:-webkit-autofill': {
           boxShadow: `0 0 0 60px ${theme.palette.background.default} inset !important`,
-          '-webkit-text-fill-color': '#ffffff !important',
+          '-webkit-text-fill-color': `${theme.palette.modules.autofillText} !important`,
         }
       },
 

@@ -1,6 +1,27 @@
 const palette = {
   divider: "rgba(255, 255, 255, 0.12)",
 
+  modules: {
+    bodyBackground: "#f5f5f5",
+    scrollbarTrack: "#eeeeee",
+    scrollbarThumb: "#dddddd",
+    scrollbarThumbHover: "#eeeeee",
+    glassBorder: "rgba(255, 255, 255, 0.12)",
+    glassBorderStrong: "rgba(255, 255, 255, 0.14)",
+    glassBorderLight: "rgba(255, 255, 255, 0.08)",
+    goldGlass: "rgba(253, 197, 0, 0.08)",
+    goldGlassStrong: "rgba(253, 197, 0, 0.1)",
+    goldBorder: "rgba(253, 197, 0, 0.2)",
+    goldBorderStrong: "rgba(253, 197, 0, 0.25)",
+    darkGlass: "rgba(0, 14, 36, 0.48)",
+    shadowGlass: "0 18px 54px rgba(0, 14, 36, 0.32)",
+    backgroundInfoGlow: "rgba(39, 98, 200, 0.3)",
+    backgroundGoldGlow: "rgba(253, 197, 0, 0.18)",
+    backgroundPrimaryGlow: "rgba(0, 80, 157, 0.26)",
+    chipFallback: "#f2f2f2",
+    autofillText: "#ffffff",
+  },
+
   colors: {
     navy: "#00296b",
     blueDark: "#003f88",

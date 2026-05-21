@@ -70,8 +70,8 @@ export const HeroBadge = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0.5, 1.5),
   borderRadius: 8,
   color: theme.palette.secondary.main,
-  backgroundColor: "rgba(253, 197, 0, 0.08)",
-  border: "1px solid rgba(253, 197, 0, 0.25)",
+  backgroundColor: theme.palette.modules.goldGlass,
+  border: `1px solid ${theme.palette.modules.goldBorderStrong}`,
 }));
 
 export const HeroTitle = styled(Typography)(({ theme }) => ({

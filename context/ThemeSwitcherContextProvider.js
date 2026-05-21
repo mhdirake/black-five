@@ -2,7 +2,7 @@
 
 import React, { createContext, useState } from "react";
 
-import { ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import muiTheme from "../config/theme/theme";
 import palettes from "../config/theme/palettes";
@@ -26,7 +26,10 @@ function ThemeSwitcherContextProvider({ children }) {
 
   return (
     <ThemeSwitcherContext.Provider value={{ theme, setTheme }}>
-      <ThemeProvider theme={mergedTheme}>{children}</ThemeProvider>
+      <ThemeProvider theme={mergedTheme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
     </ThemeSwitcherContext.Provider>
   );
 }

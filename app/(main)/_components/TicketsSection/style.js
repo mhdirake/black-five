@@ -66,8 +66,8 @@ export const FeatureIcon = styled(Box)(({ theme }) => ({
   placeItems: "center",
   borderRadius: 8,
   color: theme.palette.secondary.main,
-  backgroundColor: "rgba(253, 197, 0, 0.1)",
-  border: "1px solid rgba(253, 197, 0, 0.2)",
+  backgroundColor: theme.palette.modules.goldGlassStrong,
+  border: `1px solid ${theme.palette.modules.goldBorder}`,
 }));
 
 export const FeatureTitle = styled(Typography)(({ theme }) => ({
@@ -129,7 +129,7 @@ export const TicketVisual = styled(Box)(({ theme }) => ({
     content: '""',
     position: "absolute",
     inset: 0,
-    background: `linear-gradient(135deg, ${theme.palette.primary.main}55, ${theme.palette.secondary.main}22)`,
+    background: `linear-gradient(135deg, ${theme.palette.modules.backgroundPrimaryGlow}, ${theme.palette.modules.backgroundGoldGlow})`,
     opacity: 0.85,
   },
 }));
