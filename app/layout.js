@@ -3,6 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import AuthSessionProvider from '@/components/AuthSessionProvider';
 import LocalizationProvider from '@/context/LocalizationProvider';
 import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import StoreProvider from '@/context/StoreProvider';
@@ -34,11 +35,13 @@ export default async function RootLayout({ children }) {
 
         <StoreProvider>
           <LocalizationProvider initialLocale={locale}>
-            <ThemeSwitcherContextProvider>
-              <SmoothScrollProvider>
-                {children}
-              </SmoothScrollProvider>
-            </ThemeSwitcherContextProvider>
+            <AuthSessionProvider>
+              <ThemeSwitcherContextProvider>
+                <SmoothScrollProvider>
+                  {children}
+                </SmoothScrollProvider>
+              </ThemeSwitcherContextProvider>
+            </AuthSessionProvider>
           </LocalizationProvider>
         </StoreProvider>
       </body>

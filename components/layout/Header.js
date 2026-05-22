@@ -6,6 +6,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Button, Drawer, IconButton, Stack } from "@mui/material";
+import { signIn } from "next-auth/react";
 import { useContext, useState } from "react";
 
 import { THEMES, ThemeSwitcherContext } from "@/context/ThemeSwitcherContextProvider";
@@ -23,8 +24,12 @@ import {
   Nav,
   NavLink,
 } from "./style";
+import { UserContext } from "@/context/UserContextProvider";
+import { logout as keycloakLogout } from "@/config/authClient";
 
 function Header() {
+  const { user } = useContext(UserContext)
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { dictionary, direction, locale, toggleLocale } = useLocalization();
   const { theme, toggleTheme } = useContext(ThemeSwitcherContext);
@@ -32,6 +37,16 @@ function Header() {
   const isDarkTheme = theme === THEMES.dark;
 
   const closeMenu = () => setIsMenuOpen(false);
+  const login = () => signIn("keycloak", { callbackUrl: "/" });
+  const logout = () => keycloakLogout("/");
+  const handleMobileLogin = () => {
+    closeMenu();
+    login();
+  };
+  const handleMobileLogout = () => {
+    closeMenu();
+    logout();
+  };
 
   return (
     <HeaderRoot component="header">
@@ -55,12 +70,31 @@ function Header() {
           <Button size="small" color="info" variant="text" onClick={toggleLocale}>
             {dictionary.common.switchLanguage}
           </Button>
-          <Button size="small" color="info" variant="outlined" href="#login" startIcon={<PersonOutlineIcon />}>
-            {dictionary.header.login}
-          </Button>
-          <Button size="small" color="secondary" href="#register">
-            {dictionary.header.register}
-          </Button>
+          {user ? (
+            <>
+              <Button size="small" color="info" variant="outlined" startIcon={<PersonOutlineIcon />}>
+                {user?.first_name} {user?.last_name}
+              </Button>
+              <Button size="small" color="secondary" onClick={logout}>
+                {dictionary.header.logout}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                size="small"
+                color="info"
+                variant="outlined"
+                onClick={login}
+                startIcon={<PersonOutlineIcon />}
+              >
+                {dictionary.header.login}
+              </Button>
+              <Button size="small" color="secondary" onClick={login}>
+                {dictionary.header.register}
+              </Button>
+            </>
+          )}
         </HeaderActions>
 
         <MobileMenuButton aria-label={dictionary.header.openMenu} onClick={() => setIsMenuOpen(true)}>
@@ -100,12 +134,20 @@ function Header() {
             <Button fullWidth color="info" variant="text" onClick={toggleLocale}>
               {locale === LOCALES.fa ? "English" : "فارسی"}
             </Button>
-            <Button fullWidth color="secondary" href="#register" onClick={closeMenu}>
-              {dictionary.header.registerFull}
-            </Button>
-            <Button fullWidth color="info" variant="outlined" href="#login" onClick={closeMenu}>
-              {dictionary.header.accountLogin}
-            </Button>
+            {user ? (
+              <Button fullWidth color="secondary" onClick={handleMobileLogout}>
+                {dictionary.header.logout}
+              </Button>
+            ) : (
+              <>
+                <Button fullWidth color="secondary" onClick={handleMobileLogin}>
+                  {dictionary.header.registerFull}
+                </Button>
+                <Button fullWidth color="info" variant="outlined" onClick={handleMobileLogin}>
+                  {dictionary.header.accountLogin}
+                </Button>
+              </>
+            )}
           </Stack>
         </MobileDrawerContent>
       </Drawer>

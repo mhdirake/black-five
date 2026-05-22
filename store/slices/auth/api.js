@@ -1,0 +1,1 @@
+export const userInformation = "/api/client/profile"

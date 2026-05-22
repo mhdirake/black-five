@@ -5,30 +5,30 @@ const USER_NOT_LOGGED_IN = 401;
 const SERVER_ERROR = 500
 
 export const errors = async (response, shouldLogout = true) => {
+  const status = response?.status || response?.response?.status;
+  const url = response?.url || response?.response?.config?.url || "";
   const checkUnAuth =
-  !response?.url?.includes('/api/login') &&
-  !response?.url?.includes('/api/register') &&
-  !response?.url?.includes('/api/otp') &&
-  response?.status === USER_NOT_LOGGED_IN;
+  !url?.includes('/api/login') &&
+  !url?.includes('/api/register') &&
+  !url?.includes('/api/otp') &&
+  status === USER_NOT_LOGGED_IN;
 
   if (
     shouldLogout &&
-    (response?.status === PERMISSION_NOT_ALLOWED || checkUnAuth)
+    (status === PERMISSION_NOT_ALLOWED || checkUnAuth)
     ) {
-      const origin = window.location.origin;
-      await fetch(`${origin}/inner-api/logout`).finally(() => {
       window.localStorage.clear();
-      window.location.reload();
+      const { logout } = await import("@/config/authClient");
+      await logout("/");
       return;
-    });
   }
   
-  const error = await response?.json();
+  const error = response?.response?.data || response;
   const clientMessage = error?.message;
 
-  if(response?.status === USER_NOT_LOGGED_IN && !shouldLogout) {
+  if(status === USER_NOT_LOGGED_IN && !shouldLogout) {
     toast.error("لطفا ابتدا وارد اکانت خود شوید.")
-  }else  if(response?.status === SERVER_ERROR) {
+  }else  if(status === SERVER_ERROR) {
     toast.error("مشکلی پیش آمده است.")
   }else {
     const message =

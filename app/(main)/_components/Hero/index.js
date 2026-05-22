@@ -2,6 +2,7 @@
 
 import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
 import { Button, Chip, Grid2, Typography } from "@mui/material";
+import KeycloakSignInButton from "@/components/KeycloakSignInButton";
 import { useLocalization } from "@/context/LocalizationProvider";
 import Image from "next/image";
 
@@ -62,9 +63,9 @@ function Hero() {
               </HeroDescription>
 
               <HeroActions>
-                <Button size={"small"} color="secondary" href="#register">
+                <KeycloakSignInButton size={"small"} color="secondary">
                   {hero.primaryAction}
-                </Button>
+                </KeycloakSignInButton>
                 <Button size={"small"} color="info" variant="outlined" href="#auctions">
                   {hero.secondaryAction}
                 </Button>

@@ -1,8 +1,9 @@
 "use client";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import { Button, Grid2 } from "@mui/material";
+import { Grid2 } from "@mui/material";
 
+import KeycloakSignInButton from "@/components/KeycloakSignInButton";
 import { useLocalization } from "@/context/LocalizationProvider";
 
 import {
@@ -33,9 +34,9 @@ function FaqSection() {
               <SectionTitle component="h2">{faq.title}</SectionTitle>
               <SectionDescription>{faq.description}</SectionDescription>
               <FaqAction>
-                <Button color="secondary" href="#register">
+                <KeycloakSignInButton color="secondary">
                   {faq.action}
-                </Button>
+                </KeycloakSignInButton>
               </FaqAction>
             </FaqIntro>
           </Grid2>
