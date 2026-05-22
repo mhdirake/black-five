@@ -12,20 +12,39 @@ import { useLocalization } from "./LocalizationProvider";
 export const ThemeSwitcherContext = createContext();
 
 export const THEMES = {
-  primary: "primary",
-  secondary: "secondary",
+  dark: "dark",
+  light: "light",
 };
 
+export const THEME_COOKIE = "black-five-theme";
+
 function ThemeSwitcherContextProvider({ children }) {
-  const [cookies] = useCookies();
+  const [cookies, setCookie] = useCookies();
   const { direction } = useLocalization();
 
-  const defaultTheme = cookies?.["sana-theme"] || THEMES.primary;
+  const cookieTheme = cookies?.[THEME_COOKIE] || cookies?.["sana-theme"];
+  const defaultTheme = palettes[cookieTheme] ? cookieTheme : THEMES.dark;
   const [theme, setTheme] = useState(defaultTheme);
-  const mergedTheme = createTheme({ ...muiTheme, direction, palette: palettes[theme] });
+  const selectedPalette = palettes[theme] || palettes[THEMES.dark];
+  const mergedTheme = createTheme({ ...muiTheme, direction, palette: selectedPalette });
+
+  const changeTheme = (nextTheme) => {
+    if (!palettes[nextTheme]) return;
+
+    setTheme(nextTheme);
+    setCookie(THEME_COOKIE, nextTheme, {
+      path: "/",
+      maxAge: 31536000,
+      sameSite: "lax",
+    });
+  };
+
+  const toggleTheme = () => {
+    changeTheme(theme === THEMES.dark ? THEMES.light : THEMES.dark);
+  };
 
   return (
-    <ThemeSwitcherContext.Provider value={{ theme, setTheme }}>
+    <ThemeSwitcherContext.Provider value={{ theme, setTheme: changeTheme, toggleTheme }}>
       <ThemeProvider theme={mergedTheme}>
         <CssBaseline />
         {children}

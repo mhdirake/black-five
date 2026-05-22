@@ -1,11 +1,14 @@
 "use client";
 
 import CloseIcon from "@mui/icons-material/Close";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { Button, Drawer, IconButton, Stack } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
+import { THEMES, ThemeSwitcherContext } from "@/context/ThemeSwitcherContextProvider";
 import { LOCALES } from "@/localization/config";
 import { useLocalization } from "@/context/LocalizationProvider";
 
@@ -24,7 +27,9 @@ import {
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { dictionary, direction, locale, toggleLocale } = useLocalization();
+  const { theme, toggleTheme } = useContext(ThemeSwitcherContext);
   const navItems = dictionary.header.nav;
+  const isDarkTheme = theme === THEMES.dark;
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -44,6 +49,9 @@ function Header() {
         </Nav>
 
         <HeaderActions direction="row">
+          <IconButton color="inherit" aria-label="تغییر تم" onClick={toggleTheme}>
+            {isDarkTheme ? <LightModeOutlinedIcon fontSize="small" /> : <DarkModeOutlinedIcon fontSize="small" />}
+          </IconButton>
           <Button size="small" color="info" variant="text" onClick={toggleLocale}>
             {dictionary.common.switchLanguage}
           </Button>
@@ -80,6 +88,15 @@ function Header() {
           </Stack>
 
           <Stack gap={1.5} mt={3}>
+            <Button
+              fullWidth
+              color="info"
+              variant="outlined"
+              onClick={toggleTheme}
+              startIcon={isDarkTheme ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+            >
+              {isDarkTheme ? "Light" : "Dark"}
+            </Button>
             <Button fullWidth color="info" variant="text" onClick={toggleLocale}>
               {locale === LOCALES.fa ? "English" : "فارسی"}
             </Button>

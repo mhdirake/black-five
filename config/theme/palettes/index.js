@@ -1,9 +1,10 @@
+import light from "./light";
 import primary from "./primary";
-// import secondary from "./secondary";
 
 export const PALETTES = {
   primary,
-  // secondary,
+  dark: primary,
+  light,
 };
 
 export default PALETTES;
