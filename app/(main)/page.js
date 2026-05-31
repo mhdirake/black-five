@@ -1,24 +1,11 @@
-import React from "react";
+import HeroSection from "./_components/HeroSection";
+import AboutSection from "./_components/AboutSection";
 
-import AuctionsSection from "./_components/AuctionsSection";
-import FaqSection from "./_components/FaqSection";
-import Hero from "./_components/Hero";
-import HowItWorksSection from "./_components/HowItWorksSection";
-import SecuritySection from "./_components/SecuritySection";
-import TicketsSection from "./_components/TicketsSection";
-import { HomeRoot } from "./style";
-
-function Home() {
+export default function Home() {
   return (
-    <HomeRoot>
-      <Hero />
-      <AuctionsSection />
-      <HowItWorksSection />
-      <TicketsSection />
-      <SecuritySection />
-      <FaqSection />
-    </HomeRoot>
+    <>
+      <HeroSection />
+      <AboutSection />
+    </>
   );
 }
-
-export default Home;

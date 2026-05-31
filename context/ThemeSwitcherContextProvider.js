@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
@@ -16,17 +16,20 @@ export const THEMES = {
   light: "light",
 };
 
-export const THEME_COOKIE = "black-five-theme";
+export const THEME_COOKIE = "mehdi-theme";
 
 function ThemeSwitcherContextProvider({ children }) {
   const [cookies, setCookie] = useCookies();
   const { direction } = useLocalization();
 
-  const cookieTheme = cookies?.[THEME_COOKIE] || cookies?.["sana-theme"];
+  const cookieTheme = cookies?.[THEME_COOKIE];
   const defaultTheme = palettes[cookieTheme] ? cookieTheme : THEMES.dark;
   const [theme, setTheme] = useState(defaultTheme);
   const selectedPalette = palettes[theme] || palettes[THEMES.dark];
-  const mergedTheme = createTheme({ ...muiTheme, direction, palette: selectedPalette });
+  const mergedTheme = useMemo(
+    () => createTheme({ ...muiTheme, direction, palette: selectedPalette }),
+    [direction, selectedPalette]
+  );
 
   const changeTheme = (nextTheme) => {
     if (!palettes[nextTheme]) return;

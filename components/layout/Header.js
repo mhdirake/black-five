@@ -1,156 +1,104 @@
 "use client";
 
-import CloseIcon from "@mui/icons-material/Close";
+import { useContext, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import { Button, Drawer, IconButton, Stack } from "@mui/material";
-import { signIn } from "next-auth/react";
-import { useContext, useState } from "react";
+import TranslateIcon from "@mui/icons-material/Translate";
 
-import { THEMES, ThemeSwitcherContext } from "@/context/ThemeSwitcherContextProvider";
-import { LOCALES } from "@/localization/config";
 import { useLocalization } from "@/context/LocalizationProvider";
+import { ThemeSwitcherContext, THEMES } from "@/context/ThemeSwitcherContextProvider";
 
-import {
-  Brand,
-  BrandLogo,
-  HeaderActions,
-  HeaderContainer,
-  HeaderRoot,
-  MobileDrawerContent,
-  MobileMenuButton,
-  Nav,
-  NavLink,
-} from "./style";
-import { UserContext } from "@/context/UserContextProvider";
-import { logout as keycloakLogout } from "@/config/authClient";
+import { ControlButton, HeaderBrand, HeaderControls, HeaderRoot, Nav, NavLink } from "./style";
 
 function Header() {
-  const { user } = useContext(UserContext)
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { dictionary, direction, locale, toggleLocale } = useLocalization();
+  const [activeSection, setActiveSection] = useState("/");
+  const { dictionary, toggleLocale } = useLocalization();
   const { theme, toggleTheme } = useContext(ThemeSwitcherContext);
   const navItems = dictionary.header.nav;
-  const isDarkTheme = theme === THEMES.dark;
 
-  const closeMenu = () => setIsMenuOpen(false);
-  const login = () => signIn("keycloak", { callbackUrl: "/" });
-  const logout = () => keycloakLogout("/");
-  const handleMobileLogin = () => {
-    closeMenu();
-    login();
-  };
-  const handleMobileLogout = () => {
-    closeMenu();
-    logout();
-  };
+  useEffect(() => {
+    const sectionItems = navItems.filter((item) => item.href.startsWith("#"));
+
+    const handleScroll = () => {
+      if (window.scrollY < 80) setActiveSection("/");
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection("#" + entry.target.id);
+        });
+      },
+      { rootMargin: "-30% 0px -60% 0px" }
+    );
+
+    sectionItems.forEach((item) => {
+      const el = document.getElementById(item.href.slice(1));
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
+  }, [navItems]);
 
   return (
     <HeaderRoot component="header">
-      <HeaderContainer maxWidth="lg">
-        <Brand href="/" underline="none" aria-label={dictionary.common.brand}>
-          <BrandLogo src="/images/black-five-logo.png" alt={dictionary.header.logoAlt} width={848} height={554} priority />
-        </Brand>
+      <motion.div
+        initial={{ opacity: 0, x: -12 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
+      >
+        <HeaderBrand>M.R</HeaderBrand>
+      </motion.div>
 
-        <Nav component="nav" direction="row" aria-label={dictionary.header.mainNavigation}>
-          {navItems.map((item) => (
-            <NavLink key={item.href} href={item.href}>
-              {item.label}
-            </NavLink>
-          ))}
-        </Nav>
-
-        <HeaderActions direction="row">
-          <IconButton color="inherit" aria-label="تغییر تم" onClick={toggleTheme}>
-            {isDarkTheme ? <LightModeOutlinedIcon fontSize="small" /> : <DarkModeOutlinedIcon fontSize="small" />}
-          </IconButton>
-          <Button size="small" color="info" variant="text" onClick={toggleLocale}>
-            {dictionary.common.switchLanguage}
-          </Button>
-          {user ? (
-            <>
-              <Button size="small" color="info" variant="outlined" startIcon={<PersonOutlineIcon />}>
-                {user?.first_name} {user?.last_name}
-              </Button>
-              <Button size="small" color="secondary" onClick={logout}>
-                {dictionary.header.logout}
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                size="small"
-                color="info"
-                variant="outlined"
-                onClick={login}
-                startIcon={<PersonOutlineIcon />}
+      <motion.div
+        initial={{ y: -50, opacity: 0, scale: 0.96 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <Nav component="nav" aria-label={dictionary.header.mainNavigation}>
+          {navItems.map((item, index) => (
+            <motion.div
+              key={item.href}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 + index * 0.07, duration: 0.4, ease: "easeOut" }}
+              style={{ display: "contents" }}
+            >
+              <NavLink
+                href={item.href}
+                underline="none"
+                active={activeSection === item.href ? 1 : 0}
               >
-                {dictionary.header.login}
-              </Button>
-              <Button size="small" color="secondary" onClick={login}>
-                {dictionary.header.register}
-              </Button>
-            </>
-          )}
-        </HeaderActions>
-
-        <MobileMenuButton aria-label={dictionary.header.openMenu} onClick={() => setIsMenuOpen(true)}>
-          <MenuIcon />
-        </MobileMenuButton>
-      </HeaderContainer>
-
-      <Drawer anchor={direction === "rtl" ? "right" : "left"} open={isMenuOpen} onClose={closeMenu}>
-        <MobileDrawerContent>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
-            <Brand href="/" underline="none" aria-label={dictionary.common.brand} onClick={closeMenu}>
-              <BrandLogo src="/images/black-five-logo.png" alt={dictionary.header.logoAlt} width={848} height={554} />
-            </Brand>
-            <IconButton aria-label={dictionary.header.closeMenu} color="inherit" onClick={closeMenu}>
-              <CloseIcon />
-            </IconButton>
-          </Stack>
-
-          <Stack component="nav" gap={1.5} aria-label={dictionary.header.mobileNavigation}>
-            {navItems.map((item) => (
-              <NavLink key={item.href} href={item.href} onClick={closeMenu}>
                 {item.label}
               </NavLink>
-            ))}
-          </Stack>
+            </motion.div>
+          ))}
+        </Nav>
+      </motion.div>
 
-          <Stack gap={1.5} mt={3}>
-            <Button
-              fullWidth
-              color="info"
-              variant="outlined"
-              onClick={toggleTheme}
-              startIcon={isDarkTheme ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
-            >
-              {isDarkTheme ? "Light" : "Dark"}
-            </Button>
-            <Button fullWidth color="info" variant="text" onClick={toggleLocale}>
-              {locale === LOCALES.fa ? "English" : "فارسی"}
-            </Button>
-            {user ? (
-              <Button fullWidth color="secondary" onClick={handleMobileLogout}>
-                {dictionary.header.logout}
-              </Button>
-            ) : (
-              <>
-                <Button fullWidth color="secondary" onClick={handleMobileLogin}>
-                  {dictionary.header.registerFull}
-                </Button>
-                <Button fullWidth color="info" variant="outlined" onClick={handleMobileLogin}>
-                  {dictionary.header.accountLogin}
-                </Button>
-              </>
-            )}
-          </Stack>
-        </MobileDrawerContent>
-      </Drawer>
+      <motion.div
+        initial={{ opacity: 0, x: 12 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
+        style={{ display: "flex", justifyContent: "flex-end" }}
+      >
+        <HeaderControls>
+          <ControlButton onClick={toggleLocale} size="small" aria-label="Toggle language">
+            <TranslateIcon sx={{ fontSize: 17 }} />
+          </ControlButton>
+          <ControlButton onClick={toggleTheme} size="small" aria-label="Toggle theme">
+            {theme === THEMES.dark
+              ? <LightModeOutlinedIcon sx={{ fontSize: 17 }} />
+              : <DarkModeOutlinedIcon sx={{ fontSize: 17 }} />
+            }
+          </ControlButton>
+        </HeaderControls>
+      </motion.div>
     </HeaderRoot>
   );
 }

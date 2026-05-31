@@ -1,9 +1,8 @@
+import dark from "./primary";
 import light from "./light";
-import primary from "./primary";
 
 export const PALETTES = {
-  primary,
-  dark: primary,
+  dark,
   light,
 };
 

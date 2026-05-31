@@ -3,8 +3,8 @@ export const LOCALES = {
   en: "en",
 };
 
-export const LOCALE_COOKIE = "black-five-locale";
-export const DEFAULT_LOCALE = LOCALES.fa;
+export const LOCALE_COOKIE = "mehdi-locale";
+export const DEFAULT_LOCALE = LOCALES.en;
 
 export const DIRECTIONS = {
   [LOCALES.fa]: "rtl",
