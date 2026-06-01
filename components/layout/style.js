@@ -11,11 +11,12 @@ export const Main = styled(Box)(({ theme }) => ({
 }));
 
 export const HeaderRoot = styled(Box)(({ theme }) => ({
-  position: "sticky",
+  position: "fixed",
+  width: "100%",
   top: 0,
   zIndex: theme.zIndex.appBar,
   display: "grid",
-  gridTemplateColumns: "1fr auto 1fr",
+  gridTemplateColumns: "1fr auto 1fr", 
   alignItems: "center",
   padding: theme.spacing(3, 3),
   pointerEvents: "none",

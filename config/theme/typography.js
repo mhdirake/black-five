@@ -1,4 +1,6 @@
 export const typography = {
+  fontFamily: "var(--font-jakarta, 'Helvetica Neue', Arial, sans-serif)",
+
   subtitle1: {
     fontSize: "12px",
     fontWeight: 400,
