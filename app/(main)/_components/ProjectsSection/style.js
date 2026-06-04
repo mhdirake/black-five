@@ -214,6 +214,11 @@ export const ProjectLink = styled("a")(({ theme }) => ({
     color: theme.palette.primary.main,
     background: alpha(theme.palette.primary.main, 0.07),
   },
+  "&:focus-visible": {
+    outline: `2px solid ${theme.palette.primary.main}`,
+    outlineOffset: 2,
+    borderColor: alpha(theme.palette.primary.main, 0.5),
+  },
 }));
 
 export const ProjectDescription = styled(Typography)(({ theme }) => ({

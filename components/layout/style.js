@@ -46,8 +46,8 @@ export const HeaderControls = styled(Stack)(({ theme }) => ({
 }));
 
 export const ControlButton = styled(IconButton)(({ theme }) => ({
-  width: 34,
-  height: 34,
+  width: 40,
+  height: 40,
   color: alpha(theme.palette.text.primary, 0.4),
   transition: "color 0.2s, background 0.2s",
   "&:hover": {
@@ -85,8 +85,13 @@ export const NavLink = styled(Link, {
   transition: "color 0.25s ease, background 0.25s ease",
 
   ...(active && {
-    background: alpha(theme.palette.common.white, 0.07),
+    background: alpha(theme.palette.primary.main, 0.08),
   }),
+
+  "&:focus-visible": {
+    outline: `2px solid ${theme.palette.primary.main}`,
+    outlineOffset: 2,
+  },
 
   "&::before": {
     content: '""',

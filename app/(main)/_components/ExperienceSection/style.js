@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Chip, Container, Stack, Typography, styled } from "@mui/material";
+import { Box, Chip, Container, Typography, styled } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
 export const ExperienceRoot = styled(Box)(({ theme }) => ({
@@ -65,7 +65,7 @@ export const Timeline = styled(Box)(({ theme }) => ({
   "&::before": {
     content: '""',
     position: "absolute",
-    left: 7,
+    insetInlineStart: 7,
     top: 8,
     bottom: 8,
     width: 1,
@@ -86,16 +86,16 @@ export const TimelineItem = styled(Box, {
   gridTemplateColumns: "1fr",
   gap: theme.spacing(2),
   paddingBottom: theme.spacing(6),
-  paddingLeft: theme.spacing(5),
+  paddingInlineStart: theme.spacing(5),
 
   [theme.breakpoints.up("md")]: {
     gridTemplateColumns: "1fr 1fr",
-    paddingLeft: 0,
-    paddingRight: 0,
+    paddingInlineStart: 0,
+    paddingInlineEnd: 0,
 
     ...(reverse && {
-      "& > *:first-of-type": { order: 2 },
-      "& > *:last-of-type": { order: 1 },
+      "& > *:nth-child(2)": { order: 2 },
+      "& > *:nth-child(3)": { order: 1 },
     }),
   },
 }));
@@ -104,7 +104,7 @@ export const TimelineDot = styled(Box, {
   shouldForwardProp: (prop) => prop !== "current",
 })(({ theme, current }) => ({
   position: "absolute",
-  left: 0,
+  insetInlineStart: 0,
   top: 6,
   width: 15,
   height: 15,
@@ -121,6 +121,7 @@ export const TimelineDot = styled(Box, {
       "0%, 100%": { boxShadow: `0 0 0 4px ${alpha(theme.palette.primary.main, 0.2)}` },
       "50%": { boxShadow: `0 0 0 8px ${alpha(theme.palette.primary.main, 0.08)}` },
     },
+    "@media (prefers-reduced-motion: reduce)": { animation: "none" },
   }),
 
   [theme.breakpoints.up("md")]: {
@@ -150,9 +151,13 @@ export const TimelineCard = styled(Box, {
   },
 
   [theme.breakpoints.up("md")]: {
-    marginLeft: reverse ? 0 : theme.spacing(4),
-    marginRight: reverse ? theme.spacing(4) : 0,
-    textAlign: reverse ? "right" : "left",
+    marginInlineStart: reverse ? 0 : theme.spacing(4),
+    marginInlineEnd: reverse ? theme.spacing(4) : 0,
+    textAlign: reverse ? "end" : "start",
+
+    ...(reverse && {
+      "& > *:last-child": { justifyContent: "flex-end" },
+    }),
   },
 }));
 
@@ -165,8 +170,8 @@ export const TimelinePeriod = styled(Box, {
   [theme.breakpoints.up("md")]: {
     display: "flex",
     justifyContent: reverse ? "flex-start" : "flex-end",
-    paddingLeft: reverse ? theme.spacing(4) : 0,
-    paddingRight: reverse ? 0 : theme.spacing(4),
+    paddingInlineStart: reverse ? theme.spacing(4) : 0,
+    paddingInlineEnd: reverse ? 0 : theme.spacing(4),
     paddingTop: theme.spacing(0.5),
   },
 }));

@@ -102,6 +102,10 @@ export const EmailLink = styled("a")(({ theme }) => ({
     background: alpha(theme.palette.primary.main, 0.05),
     transform: "scale(1.02)",
   },
+  "&:focus-visible": {
+    outline: `2px solid ${theme.palette.primary.main}`,
+    outlineOffset: 4,
+  },
 }));
 
 export const SocialRow = styled(Box)(({ theme }) => ({
@@ -129,7 +133,15 @@ export const SocialLink = styled("a")(({ theme }) => ({
     color: theme.palette.text.primary,
     background: alpha(theme.palette.text.primary, 0.06),
   },
+  "&:focus-visible": {
+    outline: `2px solid ${theme.palette.primary.main}`,
+    outlineOffset: 2,
+  },
 }));
+
+export const SocialItem = styled("div")({
+  display: "contents",
+});
 
 export const SocialDivider = styled(Box)(({ theme }) => ({
   width: 1,

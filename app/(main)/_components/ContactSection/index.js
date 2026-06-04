@@ -18,6 +18,7 @@ import {
   SectionLabelLine,
   SectionNumber,
   SocialDivider,
+  SocialItem,
   SocialLink,
   SocialRow,
 } from "./style";
@@ -84,13 +85,13 @@ function ContactSection() {
             {contact.social.map((item, index) => {
               const Icon = iconMap[item.icon];
               return (
-                <div key={item.label} style={{ display: "contents" }}>
+                <SocialItem key={item.label}>
                   {index > 0 && <SocialDivider />}
                   <SocialLink href={item.url} target="_blank" rel="noopener noreferrer">
                     {Icon && <Icon sx={{ fontSize: 16 }} />}
                     {item.label}
                   </SocialLink>
-                </div>
+                </SocialItem>
               );
             })}
           </SocialRow>
