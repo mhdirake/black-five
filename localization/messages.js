@@ -15,6 +15,7 @@ export const messages = {
         { label: "Projects", href: "#projects" },
         { label: "Experience", href: "#experience" },
         { label: "Skills", href: "#skills" },
+        { label: "Blog", href: "#blog" },
         { label: "Contact", href: "#contact" },
       ],
       openMenu: "Open menu",
@@ -148,6 +149,12 @@ export const messages = {
         },
       ],
     },
+    blog: {
+      title: "Blog",
+      subtitle: "Thoughts on frontend, architecture, and engineering.",
+      empty: "No posts yet. Check back soon.",
+      minRead: "min read",
+    },
     contact: {
       title: "Get In Touch",
       subtitle: "I'm currently available for freelance work and full-time positions. Have a project in mind? Let's talk.",
@@ -177,6 +184,7 @@ export const messages = {
         { label: "پروژه‌ها", href: "#projects" },
         { label: "تجربه", href: "#experience" },
         { label: "مهارت‌ها", href: "#skills" },
+        { label: "بلاگ", href: "#blog" },
         { label: "تماس", href: "#contact" },
       ],
       openMenu: "باز کردن منو",
@@ -309,6 +317,12 @@ export const messages = {
           items: ["Git", "Figma", "Vite", "Webpack", "VS Code"],
         },
       ],
+    },
+    blog: {
+      title: "بلاگ",
+      subtitle: "نوشته‌هایی درباره فرانت‌اند، معماری و مهندسی نرم‌افزار.",
+      empty: "هنوز پستی منتشر نشده. به زودی برمی‌گردیم.",
+      minRead: "دقیقه مطالعه",
     },
     contact: {
       title: "تماس بگیرید",
