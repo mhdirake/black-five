@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Button } from "@mui/material";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 
 import { useLocalization } from "@/context/LocalizationProvider";
 
@@ -36,11 +36,44 @@ import {
   ScrollLine,
 } from "./style";
 
+const MotionBlobLeft = motion(BlobLeft);
+const MotionBlobRight = motion(BlobRight);
+
+function MagneticButton({ children }) {
+  const prefersReducedMotion = useReducedMotion();
+  const ref = useRef(null);
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const x = useSpring(rawX, { stiffness: 280, damping: 22 });
+  const y = useSpring(rawY, { stiffness: 280, damping: 22 });
+
+  const handleMouseMove = (e) => {
+    if (!ref.current || prefersReducedMotion) return;
+    const rect = ref.current.getBoundingClientRect();
+    rawX.set((e.clientX - (rect.left + rect.width / 2)) * 0.4);
+    rawY.set((e.clientY - (rect.top + rect.height / 2)) * 0.4);
+  };
+
+  if (prefersReducedMotion) return <>{children}</>;
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ x, y, display: "inline-block" }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => { rawX.set(0); rawY.set(0); }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 function HeroSection() {
   const { dictionary } = useLocalization();
   const hero = dictionary.hero;
   const socials = dictionary.contact.social;
   const [roleIndex, setRoleIndex] = useState(0);
+  const heroRef = useRef(null);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -49,15 +82,23 @@ function HeroSection() {
     return () => clearInterval(id);
   }, [hero.roles.length]);
 
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const contentY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -80]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const blobLeftY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 60]);
+  const blobRightY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -50]);
+
   const socialIcons = { github: GitHubIcon, linkedin: LinkedInIcon };
 
   return (
-    <HeroRoot component="section" id="hero">
+    <HeroRoot component="section" id="hero" ref={heroRef}>
       <DotGrid />
-      <BlobLeft />
-      <BlobRight />
+      <MotionBlobLeft style={{ y: blobLeftY }} />
+      <MotionBlobRight style={{ y: blobRightY }} />
 
       <HeroContainer maxWidth="lg">
+        <motion.div style={{ y: contentY, opacity: contentOpacity }}>
         <HeroContent>
 
           <motion.div
@@ -113,6 +154,7 @@ function HeroSection() {
             transition={{ duration: 0.6, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
           >
             <HeroActions>
+              <MagneticButton>
               <Button
                 variant="contained"
                 color="primary"
@@ -122,6 +164,7 @@ function HeroSection() {
               >
                 {hero.cta.primary}
               </Button>
+              </MagneticButton>
               <HeroCvButton
                 variant="outlined"
                 size="large"
@@ -162,6 +205,7 @@ function HeroSection() {
           </motion.div>
 
         </HeroContent>
+        </motion.div>
       </HeroContainer>
 
       <ScrollIndicator>

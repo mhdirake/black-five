@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Grid2 } from "@mui/material";
-import { motion, useInView } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useTransform } from "framer-motion";
 
 import { useLocalization } from "@/context/LocalizationProvider";
 
@@ -29,6 +29,19 @@ const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 };
+
+function AnimatedStat({ to, suffix = "" }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const count = useMotionValue(0);
+  const display = useTransform(count, (v) => Math.round(v) + suffix);
+
+  useEffect(() => {
+    if (inView) animate(count, to, { duration: 1.6, ease: [0.16, 1, 0.3, 1] });
+  }, [inView, count, to]);
+
+  return <motion.span ref={ref}>{display}</motion.span>;
+}
 
 function AboutSection() {
   const { dictionary } = useLocalization();
@@ -73,11 +86,11 @@ function AboutSection() {
             >
               <StatRow>
                 <StatItem>
-                  <StatNumber>5+</StatNumber>
+                  <StatNumber><AnimatedStat to={5} suffix="+" /></StatNumber>
                   <StatLabel>{dictionary.about.stats?.experience ?? "Years Exp."}</StatLabel>
                 </StatItem>
                 <StatItem>
-                  <StatNumber>20+</StatNumber>
+                  <StatNumber><AnimatedStat to={20} suffix="+" /></StatNumber>
                   <StatLabel>{dictionary.about.stats?.projects ?? "Projects"}</StatLabel>
                 </StatItem>
                 <StatItem>

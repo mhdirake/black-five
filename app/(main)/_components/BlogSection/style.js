@@ -52,7 +52,7 @@ export const SectionLabelLine = styled(Box)(({ theme }) => ({
 
 export const SectionTitle = styled(Typography)(({ theme }) => ({
   fontFamily: "var(--font-bebas, 'Arial Black', sans-serif)",
-  fontSize: "clamp(26px, 6vw, 64px)",
+  fontSize: "clamp(22px, 3vw, 36px)",
   fontWeight: 400,
   letterSpacing: "0.03em",
   lineHeight: 1,
@@ -87,11 +87,11 @@ export const BlogCard = styled(Box)(({ theme }) => ({
   overflow: "hidden",
   display: "flex",
   flexDirection: "column",
+  height: "100%",
   transition: "border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
 
   "&:hover": {
     borderColor: alpha(theme.palette.primary.main, 0.4),
-    transform: "translateY(-4px)",
     boxShadow: `0 16px 48px ${alpha(theme.palette.primary.main, 0.1)}`,
   },
 }));
@@ -152,7 +152,7 @@ export const BlogTags = styled(Box)(({ theme }) => ({
 
 export const BlogTag = styled(Chip)(({ theme }) => ({
   height: 22,
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 500,
   borderRadius: 5,
   background: alpha(theme.palette.primary.main, 0.08),

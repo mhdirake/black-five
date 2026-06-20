@@ -143,7 +143,7 @@ export const HeroRole = styled(Typography)(({ theme }) => ({
 }));
 
 export const HeroTagline = styled(Typography)(({ theme }) => ({
-  fontSize: "clamp(13px, 1.35vw, 16px)",
+  fontSize: "clamp(14px, 1.35vw, 16px)",
   fontWeight: 400,
   color: alpha(theme.palette.text.secondary, 0.6),
   letterSpacing: "0.02em",

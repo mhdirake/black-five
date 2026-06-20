@@ -146,6 +146,7 @@ export const ProjectCard = styled(Box, {
   flexDirection: "column",
   cursor: "default",
   overflow: "hidden",
+  height: "100%",
   transition: "border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
 
   "&:hover img": {
@@ -162,7 +163,6 @@ export const ProjectCard = styled(Box, {
 
   "&:hover": {
     borderColor: alpha(theme.palette.primary.main, 0.4),
-    transform: "translateY(-4px)",
     boxShadow: `0 16px 48px ${alpha(theme.palette.primary.main, 0.1)}`,
   },
 }));

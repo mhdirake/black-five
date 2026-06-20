@@ -6,6 +6,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 import { useLocalization } from "@/context/LocalizationProvider";
+import TiltCard from "@/components/TiltCard";
 
 import {
   BlogCard,
@@ -35,6 +36,18 @@ const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
 };
+
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+};
+
+const MotionGrid = motion(BlogGrid);
 
 function formatDate(dateStr, locale) {
   if (!dateStr) return "";
@@ -80,15 +93,18 @@ export default function BlogSectionClient({ posts }) {
             <BlogEmptyState>{blog.empty}</BlogEmptyState>
           </motion.div>
         ) : (
-          <BlogGrid>
-            {posts.map((post, index) => (
+          <MotionGrid
+            variants={container}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+          >
+            {posts.map((post) => (
               <motion.div
                 key={post.uuid}
-                variants={fadeUp}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                transition={{ duration: 0.5, delay: 0.1 + index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                variants={item}
+                whileHover={{ y: -8, transition: { type: "spring", stiffness: 300, damping: 25 } }}
               >
+                <TiltCard maxTilt={8} scale={1.0}>
                 <BlogCard>
                   {post.coverImage ? (
                     <BlogCover src={post.coverImage} alt={post.title} />
@@ -127,9 +143,10 @@ export default function BlogSectionClient({ posts }) {
                     </BlogMeta>
                   </BlogCardContent>
                 </BlogCard>
+                </TiltCard>
               </motion.div>
             ))}
-          </BlogGrid>
+          </MotionGrid>
         )}
       </BlogsContainer>
     </BlogRoot>

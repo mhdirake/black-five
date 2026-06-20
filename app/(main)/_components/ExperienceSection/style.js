@@ -144,6 +144,8 @@ export const TimelineCard = styled(Box, {
   flexDirection: "column",
   gap: theme.spacing(1.5),
   transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+  direction: "ltr",
+  textAlign: "left",
 
   "&:hover": {
     borderColor: alpha(theme.palette.primary.main, 0.35),
@@ -151,13 +153,8 @@ export const TimelineCard = styled(Box, {
   },
 
   [theme.breakpoints.up("md")]: {
-    marginInlineStart: reverse ? 0 : theme.spacing(4),
-    marginInlineEnd: reverse ? theme.spacing(4) : 0,
-    textAlign: reverse ? "end" : "start",
-
-    ...(reverse && {
-      "& > *:last-child": { justifyContent: "flex-end" },
-    }),
+    marginLeft: reverse ? 0 : theme.spacing(4),
+    marginRight: reverse ? theme.spacing(4) : 0,
   },
 }));
 

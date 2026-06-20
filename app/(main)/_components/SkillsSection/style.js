@@ -74,6 +74,7 @@ export const CategoryCard = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: theme.spacing(2),
+  height: "100%",
   transition: "border-color 0.3s ease",
 
   "&:hover": {

@@ -6,6 +6,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { motion, useInView } from "framer-motion";
 
 import { useLocalization } from "@/context/LocalizationProvider";
+import TiltCard from "@/components/TiltCard";
 
 import {
   EmptyState,
@@ -38,6 +39,18 @@ const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
 };
+
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+};
+
+const MotionGrid = motion(ProjectsGrid);
 
 function ProjectsSection() {
   const { dictionary } = useLocalization();
@@ -75,15 +88,18 @@ function ProjectsSection() {
             <EmptyState>{projects.empty}</EmptyState>
           </motion.div>
         ) : (
-          <ProjectsGrid>
-            {projects.items.map((project, index) => (
+          <MotionGrid
+            variants={container}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+          >
+            {projects.items.map((project) => (
               <motion.div
                 key={project.title}
-                variants={fadeUp}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                transition={{ duration: 0.5, delay: 0.1 + index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                variants={item}
+                whileHover={{ y: -8, transition: { type: "spring", stiffness: 300, damping: 25 } }}
               >
+                <TiltCard maxTilt={8} scale={1.0}>
                 <ProjectCard featured={project.featured ? 1 : 0}>
                   <ProjectImageWrapper>
                     {project.image && (
@@ -127,9 +143,10 @@ function ProjectsSection() {
                     )}
                   </ProjectCardContent>
                 </ProjectCard>
+                </TiltCard>
               </motion.div>
             ))}
-          </ProjectsGrid>
+          </MotionGrid>
         )}
 
       </ProjectsContainer>

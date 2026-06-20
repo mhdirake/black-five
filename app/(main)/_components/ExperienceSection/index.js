@@ -33,6 +33,18 @@ const fadeUp = {
   visible: { opacity: 1, y: 0 },
 };
 
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
+};
+
+const entryVariant = {
+  hidden: (isReverse) => ({ opacity: 0, x: isReverse ? 40 : -40 }),
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+};
+
+const MotionTimeline = motion(Timeline);
+
 function ExperienceSection() {
   const { dictionary } = useLocalization();
   const experience = dictionary.experience;
@@ -56,16 +68,19 @@ function ExperienceSection() {
           <SectionTitle>{experience.title}</SectionTitle>
         </motion.div>
 
-        <Timeline>
+        <MotionTimeline
+          variants={container}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+        >
           {experience.items.map((item, index) => {
             const reverse = index % 2 === 1;
             return (
               <motion.div
                 key={item.company}
-                variants={fadeUp}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                transition={{ duration: 0.55, delay: 0.1 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                custom={reverse}
+                variants={entryVariant}
+                whileHover={{ y: -3, transition: { type: "spring", stiffness: 300, damping: 25 } }}
               >
                 <TimelineItem reverse={reverse ? 1 : 0}>
                   <TimelineDot current={item.current ? 1 : 0} />
@@ -99,7 +114,7 @@ function ExperienceSection() {
               </motion.div>
             );
           })}
-        </Timeline>
+        </MotionTimeline>
 
       </ExperienceContainer>
     </ExperienceRoot>

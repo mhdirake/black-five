@@ -85,7 +85,7 @@ export const EmailLink = styled("a")(({ theme }) => ({
   alignItems: "center",
   gap: theme.spacing(1.5),
   fontFamily: "var(--font-bebas, 'Arial Black', sans-serif)",
-  fontSize: "clamp(22px, 3.5vw, 42px)",
+  fontSize: "clamp(14px, 1.8vw, 22px)",
   letterSpacing: "0.04em",
   color: theme.palette.text.primary,
   textDecoration: "none",

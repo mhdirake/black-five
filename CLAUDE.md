@@ -6,7 +6,6 @@
 - **Language**: JavaScript — no TypeScript, no `.ts`/`.tsx` files
 - **UI**: MUI v6 + Emotion (`@mui/material`, `@mui/icons-material`)
 - **State**: Redux Toolkit (`@reduxjs/toolkit`, `react-redux`)
-- **Auth**: NextAuth v4 with Keycloak provider
 - **HTTP**: Axios (`config/http.js`)
 - **Forms**: react-hook-form + yup
 - **Animations**: Framer Motion
@@ -165,28 +164,6 @@ const { theme, setTheme, toggleTheme } = useContext(ThemeSwitcherContext);
 - `theme.palette.text.text` — secondary body text (not `.secondary` which is gold)
 - Extend palette keys only inside the relevant palette file, not inline
 
-## Auth
-
-```js
-// Login
-import { signIn } from "next-auth/react";
-signIn("keycloak", { callbackUrl: "/" });
-
-// Logout
-import { logout } from "@/config/authClient";
-logout("/");
-
-// Current user (server component)
-// Available via UserContextProvider — fetched in (main)/layout.js
-
-// Current user (client component)
-const { user } = useContext(UserContext);
-```
-
-- NextAuth v4, Keycloak, JWT strategy
-- Session tokens: `session.accessToken`, `session.idToken`
-- Protected server requests: token auto-attached by `config/http.js` SSR path
-
 ## HTTP / API
 
 ```js
@@ -205,9 +182,7 @@ export const authApi = {
 export const getUserInformation = createThunkFromApi("auth/getUserInformation", authApi.userInformation);
 ```
 
-- All backend calls through `config/http.js` (handles Bearer token, 401/403 auto-logout, field error toasting)
-- Client: token from `localStorage.access_token`
-- Server: token from NextAuth JWT cookie via `config/nextAuthToken.js`
+- All backend calls through `config/http.js`
 - All backend paths prefixed `/api/client/` — rewritten to `NEXT_PUBLIC_API_URL` in `next.config.js`
 
 ## Redux
@@ -240,11 +215,6 @@ import http from "@/config/http";
 
 ```
 NEXT_PUBLIC_API_URL=      # backend base URL
-KEYCLOAK_CLIENT_ID=
-KEYCLOAK_CLIENT_SECRET=
-KEYCLOAK_ISSUER=
-NEXTAUTH_SECRET=
-NEXTAUTH_URL=
 ```
 
 See `.env.example` for full list. Never commit `.env.local`.

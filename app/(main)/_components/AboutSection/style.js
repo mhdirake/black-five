@@ -76,7 +76,7 @@ export const SkillsPanel = styled(Box)(({ theme }) => ({
 }));
 
 export const SkillsGroupTitle = styled(Typography)(({ theme }) => ({
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 600,
   letterSpacing: "0.18em",
   textTransform: "uppercase",
@@ -135,7 +135,7 @@ export const StatNumber = styled(Typography)(({ theme }) => ({
 }));
 
 export const StatLabel = styled(Typography)(({ theme }) => ({
-  fontSize: 12,
+  fontSize: 13,
   color: theme.palette.text.secondary,
   letterSpacing: "0.05em",
   marginTop: theme.spacing(0.25),
