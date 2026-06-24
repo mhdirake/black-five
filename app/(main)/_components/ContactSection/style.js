@@ -148,3 +148,114 @@ export const SocialDivider = styled(Box)(({ theme }) => ({
   height: 16,
   background: alpha(theme.palette.text.primary, 0.15),
 }));
+
+export const OrDivider = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: theme.spacing(2),
+  margin: theme.spacing(5, 0, 3),
+  "&::before, &::after": {
+    content: '""',
+    flex: 1,
+    height: 1,
+    background: alpha(theme.palette.text.primary, 0.1),
+  },
+}));
+
+export const FormRoot = styled("form")(({ theme }) => ({
+  width: "100%",
+  maxWidth: 520,
+  margin: "0 auto",
+  display: "flex",
+  flexDirection: "column",
+  gap: theme.spacing(2),
+  textAlign: "left",
+  "[dir='rtl'] &": { textAlign: "right" },
+}));
+
+export const FormField = styled("input")(({ theme }) => ({
+  width: "100%",
+  background: alpha(theme.palette.text.primary, 0.04),
+  border: "1px solid",
+  borderColor: alpha(theme.palette.text.primary, 0.1),
+  borderRadius: 10,
+  padding: theme.spacing(1.75, 2.5),
+  fontSize: 14,
+  color: theme.palette.text.primary,
+  outline: "none",
+  fontFamily: "inherit",
+  boxSizing: "border-box",
+  transition: "border-color 0.2s ease, background 0.2s ease",
+  "&::placeholder": {
+    color: alpha(theme.palette.text.primary, 0.35),
+  },
+  "&:focus": {
+    borderColor: alpha(theme.palette.primary.main, 0.5),
+    background: alpha(theme.palette.primary.main, 0.04),
+  },
+}));
+
+export const FormTextarea = styled("textarea")(({ theme }) => ({
+  width: "100%",
+  background: alpha(theme.palette.text.primary, 0.04),
+  border: "1px solid",
+  borderColor: alpha(theme.palette.text.primary, 0.1),
+  borderRadius: 10,
+  padding: theme.spacing(1.75, 2.5),
+  fontSize: 14,
+  color: theme.palette.text.primary,
+  outline: "none",
+  fontFamily: "inherit",
+  resize: "vertical",
+  minHeight: 120,
+  boxSizing: "border-box",
+  transition: "border-color 0.2s ease, background 0.2s ease",
+  "&::placeholder": {
+    color: alpha(theme.palette.text.primary, 0.35),
+  },
+  "&:focus": {
+    borderColor: alpha(theme.palette.primary.main, 0.5),
+    background: alpha(theme.palette.primary.main, 0.04),
+  },
+}));
+
+export const SubmitButton = styled("button")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: theme.spacing(1),
+  width: "100%",
+  padding: theme.spacing(1.75, 3),
+  borderRadius: 10,
+  border: "none",
+  background: theme.palette.primary.main,
+  color: "#fff",
+  fontSize: 14,
+  fontWeight: 600,
+  fontFamily: "inherit",
+  cursor: "pointer",
+  transition: "opacity 0.2s ease, transform 0.2s ease",
+  "&:hover:not(:disabled)": {
+    opacity: 0.88,
+    transform: "translateY(-1px)",
+  },
+  "&:disabled": {
+    opacity: 0.55,
+    cursor: "not-allowed",
+  },
+}));
+
+export const FormMessage = styled(Box, {
+  shouldForwardProp: (p) => p !== "success",
+})(({ theme, success }) => ({
+  padding: theme.spacing(1.5, 2),
+  borderRadius: 8,
+  fontSize: 13,
+  textAlign: "center",
+  background: success
+    ? alpha("#4caf50", 0.12)
+    : alpha("#f44336", 0.12),
+  color: success ? "#4caf50" : "#f44336",
+  border: "1px solid",
+  borderColor: success ? alpha("#4caf50", 0.25) : alpha("#f44336", 0.25),
+}));

@@ -160,9 +160,19 @@ export const messages = {
       subtitle: "I'm currently available for freelance work and full-time positions. Have a project in mind? Let's talk.",
       email: "mehdirashid.work@gmail.com",
       social: [
-        { label: "GitHub", url: "https://github.com/", icon: "github" },
-        { label: "LinkedIn", url: "https://linkedin.com/in/", icon: "linkedin" },
+        { label: "GitHub", url: "https://github.com/mhdirake", icon: "github" },
+        { label: "LinkedIn", url: "https://www.linkedin.com/in/mhdirashid/", icon: "linkedin" },
       ],
+      form: {
+        namePlaceholder: "Your name",
+        emailPlaceholder: "Your email",
+        messagePlaceholder: "Tell me about your project...",
+        submit: "Send Message",
+        sending: "Sending...",
+        success: "Message sent! I'll get back to you soon.",
+        error: "Something went wrong. Try again or email me directly.",
+        orLabel: "Or email directly",
+      },
     },
     footer: {
       rights: "All rights reserved.",
@@ -329,9 +339,19 @@ export const messages = {
       subtitle: "در حال حاضر برای پروژه‌های فریلنس و موقعیت‌های تمام‌وقت آماده‌ام. پروژه‌ای دارید؟ بیاید صحبت کنیم.",
       email: "mehdirashid.work@gmail.com",
       social: [
-        { label: "GitHub", url: "https://github.com/", icon: "github" },
-        { label: "LinkedIn", url: "https://linkedin.com/in/", icon: "linkedin" },
+        { label: "GitHub", url: "https://github.com/mhdirake", icon: "github" },
+        { label: "LinkedIn", url: "https://www.linkedin.com/in/mhdirashid/", icon: "linkedin" },
       ],
+      form: {
+        namePlaceholder: "نام شما",
+        emailPlaceholder: "ایمیل شما",
+        messagePlaceholder: "درباره پروژه‌تان بگویید...",
+        submit: "ارسال پیام",
+        sending: "در حال ارسال...",
+        success: "پیام ارسال شد! به زودی پاسخ می‌دهم.",
+        error: "مشکلی پیش آمد. دوباره امتحان کنید یا مستقیماً ایمیل بزنید.",
+        orLabel: "یا مستقیم ایمیل بزنید",
+      },
     },
     footer: {
       rights: "تمام حقوق محفوظ است.",
