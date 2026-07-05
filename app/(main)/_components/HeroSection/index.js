@@ -36,7 +36,6 @@ import {
   HeroFooter,
   HeroGreeting,
   HeroGreetingLine,
-  HeroImage,
   HeroImageWrapper,
   HeroNameFlourish,
   HeroNameGroup,
@@ -53,11 +52,14 @@ import {
   ScrollIndicator,
   ScrollLabel,
   ScrollTrack,
+  SketchArt,
 } from "./style";
+import { MehdiSketch } from "@/assets/icons";
 
 const MotionBlobLeft = motion(BlobLeft);
 const MotionBlobRight = motion(BlobRight);
 const MotionCursorGlow = motion(CursorGlow);
+const MotionImageWrapper = motion(HeroImageWrapper);
 
 function MagneticButton({ children }) {
   const prefersReducedMotion = useReducedMotion();
@@ -109,6 +111,7 @@ function HeroSection() {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
   const blobLeftY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 60]);
   const blobRightY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -50]);
+  const sketchParallaxY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 110]);
 
   const glowX = useMotionValue(50);
   const glowY = useMotionValue(30);
@@ -126,7 +129,7 @@ function HeroSection() {
   return (
     <HeroRoot component="section" id="hero" ref={heroRef} onMouseMove={handlePointerMove}>
       <DotGrid />
-      <Monogram aria-hidden="true">MR</Monogram>
+      {/* <Monogram aria-hidden="true">MR</Monogram> */}
       <MotionCursorGlow style={{ background: glowBackground }} />
       <MotionBlobLeft style={{ y: blobLeftY }} />
       <MotionBlobRight style={{ y: blobRightY }} />
@@ -278,9 +281,17 @@ function HeroSection() {
         </motion.div>
       </HeroContainer>
 
-      <HeroImageWrapper>
-        <HeroImage src="/images/mehdi_sketch.png" alt="" aria-hidden="true" />
-      </HeroImageWrapper>
+      <MotionImageWrapper aria-hidden="true" style={{ y: sketchParallaxY }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+        >
+          <SketchArt>
+            <MehdiSketch />
+          </SketchArt>
+        </motion.div>
+      </MotionImageWrapper>
 
       <ScrollIndicator>
         <ScrollLabel>{hero.scroll}</ScrollLabel>

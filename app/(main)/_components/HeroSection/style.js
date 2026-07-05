@@ -399,21 +399,14 @@ export const ScrollTrack = styled(Box)(({ theme }) => ({
 
 export const HeroImageWrapper = styled(Box)(({ theme }) => ({
   position: "absolute",
-  bottom: -188,
+  bottom: -500,
   insetInlineEnd: "clamp(16px, 6vw, 146px)",
-  right: -130,
+  right: -600,
   zIndex: 1,
-  width: "clamp(260px, 82vw, 840px)",
+  width: "clamp(520px, 145vw, 1680px)",
   pointerEvents: "none",
   userSelect: "none",
-  opacity: 0.2,
-  transform: "rotate(22deg)",
-  animation: "sketchDrift 14s ease-in-out infinite alternate",
-  "@keyframes sketchDrift": {
-    from: { transform: "rotate(22deg) translate(0, 0) scale(1)", opacity: 0.16 },
-    to: { transform: "rotate(25deg) translate(-14px, -18px) scale(1.03)", opacity: 0.24 },
-  },
-  "@media (prefers-reduced-motion: reduce)": { animation: "none" },
+  opacity: 0.12,
   "&::before": {
     content: '""',
     position: "absolute",
@@ -421,18 +414,38 @@ export const HeroImageWrapper = styled(Box)(({ theme }) => ({
     borderRadius: "50%",
     background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.32)} 0%, ${alpha(theme.palette.primary.dark, 0.12)} 55%, transparent 75%)`,
     filter: "blur(48px)",
+    animation: "sketchGlowPulse 7s ease-in-out infinite alternate",
+    "@keyframes sketchGlowPulse": {
+      from: { opacity: 0.45, transform: "scale(0.92)" },
+      to: { opacity: 1, transform: "scale(1.12)" },
+    },
+    "@media (prefers-reduced-motion: reduce)": { animation: "none" },
   },
   [theme.breakpoints.down("md")]: {
     display: "none",
   },
 }));
 
-export const HeroImage = styled("img")(({ theme }) => ({
+export const SketchArt = styled(Box)(({ theme }) => ({
   position: "relative",
-  display: "block",
-  width: "100%",
-  height: "auto",
-  filter: `drop-shadow(0 0 14px ${alpha(theme.palette.primary.main, 0.55)}) drop-shadow(0 0 42px ${alpha(theme.palette.primary.main, 0.3)})`,
   maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
   WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+  animation: "sketchNeonBreath 7s ease-in-out infinite alternate",
+  "& svg": {
+    display: "block",
+    width: "100%",
+    height: "auto",
+  },
+  "@keyframes sketchNeonBreath": {
+    from: {
+      filter: `drop-shadow(0 0 10px ${alpha(theme.palette.primary.main, 0.4)}) drop-shadow(0 0 30px ${alpha(theme.palette.primary.main, 0.2)})`,
+    },
+    to: {
+      filter: `drop-shadow(0 0 18px ${alpha(theme.palette.primary.main, 0.7)}) drop-shadow(0 0 56px ${alpha(theme.palette.primary.main, 0.4)})`,
+    },
+  },
+  "@media (prefers-reduced-motion: reduce)": {
+    animation: "none",
+    filter: `drop-shadow(0 0 14px ${alpha(theme.palette.primary.main, 0.55)}) drop-shadow(0 0 42px ${alpha(theme.palette.primary.main, 0.3)})`,
+  },
 }));
