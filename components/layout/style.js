@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, IconButton, Link, Stack, Typography, styled } from "@mui/material";
+import { Box, Link, Stack, Typography, styled } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
 export const Main = styled(Box)(({ theme }) => ({
@@ -35,25 +35,6 @@ export const HeaderBrand = styled(Typography)(({ theme }) => ({
   pointerEvents: "auto",
   cursor: "default",
   userSelect: "none",
-}));
-
-export const HeaderControls = styled(Stack)(({ theme }) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  gap: theme.spacing(0.25),
-  pointerEvents: "auto",
-}));
-
-export const ControlButton = styled(IconButton)(({ theme }) => ({
-  width: 40,
-  height: 40,
-  color: alpha(theme.palette.text.primary, 0.4),
-  transition: "color 0.2s, background 0.2s",
-  "&:hover": {
-    color: theme.palette.text.primary,
-    background: alpha(theme.palette.text.primary, 0.06),
-  },
 }));
 
 export const Nav = styled(Stack)(({ theme }) => ({

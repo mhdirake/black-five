@@ -6,8 +6,17 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { Button } from "@mui/material";
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import { alpha, useTheme } from "@mui/material/styles";
+import {
+  AnimatePresence,
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 
 import { useLocalization } from "@/context/LocalizationProvider";
 
@@ -15,7 +24,9 @@ import {
   BadgeDot,
   BlobLeft,
   BlobRight,
+  CursorGlow,
   DotGrid,
+  GrainOverlay,
   HeroActions,
   HeroBadge,
   HeroContainer,
@@ -23,21 +34,30 @@ import {
   HeroCvButton,
   HeroEmail,
   HeroFooter,
+  HeroGreeting,
+  HeroGreetingLine,
+  HeroImage,
+  HeroImageWrapper,
+  HeroNameFlourish,
+  HeroNameGroup,
   HeroNameOutlined,
   HeroNameSolid,
+  HeroPrimaryButton,
   HeroRole,
   HeroRoleWrapper,
   HeroRoot,
   HeroSocialDivider,
   HeroSocialLink,
   HeroTagline,
-  ScrollDot,
+  Monogram,
   ScrollIndicator,
-  ScrollLine,
+  ScrollLabel,
+  ScrollTrack,
 } from "./style";
 
 const MotionBlobLeft = motion(BlobLeft);
 const MotionBlobRight = motion(BlobRight);
+const MotionCursorGlow = motion(CursorGlow);
 
 function MagneticButton({ children }) {
   const prefersReducedMotion = useReducedMotion();
@@ -69,6 +89,7 @@ function MagneticButton({ children }) {
 }
 
 function HeroSection() {
+  const theme = useTheme();
   const { dictionary } = useLocalization();
   const hero = dictionary.hero;
   const socials = dictionary.contact.social;
@@ -89,11 +110,24 @@ function HeroSection() {
   const blobLeftY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 60]);
   const blobRightY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -50]);
 
+  const glowX = useMotionValue(50);
+  const glowY = useMotionValue(30);
+  const glowBackground = useMotionTemplate`radial-gradient(560px circle at ${glowX}% ${glowY}%, ${alpha(theme.palette.primary.main, 0.16)} 0%, transparent 70%)`;
+
+  const handlePointerMove = (e) => {
+    if (prefersReducedMotion || !heroRef.current) return;
+    const rect = heroRef.current.getBoundingClientRect();
+    glowX.set(((e.clientX - rect.left) / rect.width) * 100);
+    glowY.set(((e.clientY - rect.top) / rect.height) * 100);
+  };
+
   const socialIcons = { github: GitHubIcon, linkedin: LinkedInIcon };
 
   return (
-    <HeroRoot component="section" id="hero" ref={heroRef}>
+    <HeroRoot component="section" id="hero" ref={heroRef} onMouseMove={handlePointerMove}>
       <DotGrid />
+      <Monogram aria-hidden="true">MR</Monogram>
+      <MotionCursorGlow style={{ background: glowBackground }} />
       <MotionBlobLeft style={{ y: blobLeftY }} />
       <MotionBlobRight style={{ y: blobRightY }} />
 
@@ -113,37 +147,73 @@ function HeroSection() {
           </motion.div>
 
           <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <HeroGreeting>
+              <HeroGreetingLine />
+              {hero.greeting}
+            </HeroGreeting>
+          </motion.div>
+
+          <motion.div
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             whileHover={{
               scale: 1.015,
-              filter: "drop-shadow(0 0 48px rgba(227, 28, 37, 0.35))",
+              filter: `drop-shadow(0 0 48px ${alpha(theme.palette.primary.main, 0.35)})`,
             }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
             style={{ cursor: "default" }}
           >
-            <HeroNameOutlined aria-hidden="true">{hero.nameFirst}</HeroNameOutlined>
-            <HeroNameSolid>{hero.nameLast}</HeroNameSolid>
+            <HeroNameGroup>
+              <HeroNameOutlined>{hero.nameFirst}</HeroNameOutlined>
+              <HeroNameSolid>{hero.nameLast}</HeroNameSolid>
+              <HeroNameFlourish viewBox="0 0 160 16" fill="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="heroFlourishGradient" x1="0" y1="0" x2="160" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop stopColor={theme.palette.primary.light} />
+                    <stop offset="1" stopColor={theme.palette.primary.dark} />
+                  </linearGradient>
+                </defs>
+                <motion.path
+                  d="M2 10C24 2 40 14 62 8C84 2 100 13 122 7C136 3 148 9 158 6"
+                  stroke="url(#heroFlourishGradient)"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                />
+              </HeroNameFlourish>
+            </HeroNameGroup>
           </motion.div>
-
-          <HeroRoleWrapper>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={roleIndex}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25 }}
-              >
-                <HeroRole>{hero.roles[roleIndex]}</HeroRole>
-              </motion.div>
-            </AnimatePresence>
-          </HeroRoleWrapper>
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <HeroRoleWrapper>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={roleIndex}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <HeroRole>{hero.roles[roleIndex]}</HeroRole>
+                </motion.div>
+              </AnimatePresence>
+            </HeroRoleWrapper>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
           >
             <HeroTagline>{hero.tagline}</HeroTagline>
           </motion.div>
@@ -151,11 +221,11 @@ function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
           >
             <HeroActions>
               <MagneticButton>
-              <Button
+              <HeroPrimaryButton
                 variant="contained"
                 color="primary"
                 size="large"
@@ -163,7 +233,7 @@ function HeroSection() {
                 endIcon={<ArrowForwardIcon />}
               >
                 {hero.cta.primary}
-              </Button>
+              </HeroPrimaryButton>
               </MagneticButton>
               <HeroCvButton
                 variant="outlined"
@@ -179,7 +249,7 @@ function HeroSection() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{ duration: 0.8, delay: 0.55 }}
           >
             <HeroFooter>
               <HeroEmail href={`mailto:${hero.email}`}>
@@ -208,10 +278,16 @@ function HeroSection() {
         </motion.div>
       </HeroContainer>
 
+      <HeroImageWrapper>
+        <HeroImage src="/images/mehdi_sketch.png" alt="" aria-hidden="true" />
+      </HeroImageWrapper>
+
       <ScrollIndicator>
-        <ScrollDot />
-        <ScrollLine />
+        <ScrollLabel>{hero.scroll}</ScrollLabel>
+        <ScrollTrack />
       </ScrollIndicator>
+
+      <GrainOverlay />
     </HeroRoot>
   );
 }

@@ -15,7 +15,6 @@ export const messages = {
         { label: "Projects", href: "#projects" },
         { label: "Experience", href: "#experience" },
         { label: "Skills", href: "#skills" },
-        { label: "Blog", href: "#blog" },
         { label: "Contact", href: "#contact" },
       ],
       openMenu: "Open menu",
@@ -35,6 +34,7 @@ export const messages = {
         primary: "View My Work",
         secondary: "Download CV",
       },
+      scroll: "Scroll",
     },
     about: {
       title: "About Me",
@@ -194,7 +194,6 @@ export const messages = {
         { label: "پروژه‌ها", href: "#projects" },
         { label: "تجربه", href: "#experience" },
         { label: "مهارت‌ها", href: "#skills" },
-        { label: "بلاگ", href: "#blog" },
         { label: "تماس", href: "#contact" },
       ],
       openMenu: "باز کردن منو",
@@ -214,6 +213,7 @@ export const messages = {
         primary: "مشاهده کارها",
         secondary: "دانلود رزومه",
       },
+      scroll: "اسکرول",
     },
     about: {
       title: "درباره من",

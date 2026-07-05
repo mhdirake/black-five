@@ -19,12 +19,11 @@ export const THEMES = {
 export const THEME_COOKIE = "mehdi-theme";
 
 function ThemeSwitcherContextProvider({ children }) {
-  const [cookies, setCookie] = useCookies();
+  const [, setCookie] = useCookies();
   const { direction } = useLocalization();
 
-  const cookieTheme = cookies?.[THEME_COOKIE];
-  const defaultTheme = palettes[cookieTheme] ? cookieTheme : THEMES.dark;
-  const [theme, setTheme] = useState(defaultTheme);
+  // Dark is the only active theme for now — the switcher UI is removed.
+  const [theme, setTheme] = useState(THEMES.dark);
   const selectedPalette = palettes[theme] || palettes[THEMES.dark];
   const mergedTheme = useMemo(
     () => createTheme({ ...muiTheme, direction, palette: selectedPalette }),

@@ -3,6 +3,12 @@
 import { Box, Button, Container, Stack, Typography, styled } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
+const noiseSvg = encodeURIComponent(
+  "<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'>" +
+  "<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter>" +
+  "<rect width='100%' height='100%' filter='url(#n)'/></svg>"
+);
+
 export const HeroRoot = styled(Box)(({ theme }) => ({
   position: "relative",
   minHeight: "100vh",
@@ -11,6 +17,17 @@ export const HeroRoot = styled(Box)(({ theme }) => ({
   overflow: "hidden",
   background: theme.palette.background.default,
 }));
+
+export const GrainOverlay = styled(Box)({
+  position: "absolute",
+  inset: 0,
+  zIndex: 5,
+  opacity: 0.05,
+  mixBlendMode: "overlay",
+  pointerEvents: "none",
+  backgroundImage: `url("data:image/svg+xml,${noiseSvg}")`,
+  backgroundRepeat: "repeat",
+});
 
 export const DotGrid = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -21,6 +38,30 @@ export const DotGrid = styled(Box)(({ theme }) => ({
   maskImage: "radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%)",
   WebkitMaskImage: "radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%)",
 }));
+
+export const Monogram = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: "-8%",
+  insetInlineEnd: "-3%",
+  fontFamily: "var(--font-bebas, sans-serif)",
+  fontSize: "clamp(220px, 30vw, 480px)",
+  lineHeight: 0.78,
+  letterSpacing: "-0.01em",
+  color: "transparent",
+  WebkitTextStroke: `1px ${alpha(theme.palette.text.primary, 0.055)}`,
+  userSelect: "none",
+  pointerEvents: "none",
+  zIndex: 0,
+  [theme.breakpoints.down("md")]: { display: "none" },
+}));
+
+export const CursorGlow = styled(Box)({
+  position: "absolute",
+  inset: 0,
+  zIndex: 0,
+  pointerEvents: "none",
+  mixBlendMode: "screen",
+});
 
 export const BlobLeft = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -69,6 +110,11 @@ export const HeroContent = styled(Stack)(({ theme }) => ({
   gap: theme.spacing(3),
   maxWidth: 740,
   margin: "0 auto",
+  [theme.breakpoints.up("md")]: {
+    alignItems: "flex-start",
+    textAlign: "start",
+    margin: 0,
+  },
 }));
 
 export const HeroBadge = styled(Box)(({ theme }) => ({
@@ -104,42 +150,92 @@ export const BadgeDot = styled(Box)(({ theme }) => ({
   "@media (prefers-reduced-motion: reduce)": { animation: "none" },
 }));
 
+export const HeroGreeting = styled(Box)(({ theme }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  gap: theme.spacing(1.25),
+  color: alpha(theme.palette.text.primary, 0.7),
+  fontSize: 15,
+  fontStyle: "italic",
+  fontWeight: 500,
+  letterSpacing: "0.01em",
+}));
+
+export const HeroGreetingLine = styled(Box)(({ theme }) => ({
+  width: 32,
+  height: 1,
+  flexShrink: 0,
+  background: `linear-gradient(90deg, ${theme.palette.primary.main}, transparent)`,
+}));
+
+export const HeroNameGroup = styled(Box)({
+  position: "relative",
+  display: "inline-flex",
+  flexDirection: "column",
+});
+
 export const HeroNameOutlined = styled("span")(({ theme }) => ({
   display: "block",
-  fontFamily: "var(--font-bebas, 'Arial Black', sans-serif)",
-  fontSize: "clamp(42px, 11vw, 110px)",
-  fontWeight: 300,
-  lineHeight: 1.0,
-  letterSpacing: "0.02em",
-  WebkitTextStroke: `2px ${alpha(theme.palette.text.primary, 0.75)}`,
-  color: "transparent",
+  fontFamily: "var(--font-jakarta, sans-serif)",
+  fontSize: "clamp(40px, 9vw, 92px)",
+  fontWeight: 200,
+  lineHeight: 1.05,
+  letterSpacing: "-0.03em",
+  color: theme.palette.text.primary,
   userSelect: "none",
 }));
 
 export const HeroNameSolid = styled("span")(({ theme }) => ({
   display: "block",
-  fontFamily: "var(--font-bebas, 'Arial Black', sans-serif)",
-  fontSize: "clamp(42px, 11vw, 110px)",
-  fontWeight: 300,
-  lineHeight: 1.0,
-  letterSpacing: "0.02em",
+  fontFamily: "var(--font-jakarta, sans-serif)",
+  fontSize: "clamp(40px, 9vw, 92px)",
+  fontWeight: 200,
+  lineHeight: 1.05,
+  letterSpacing: "-0.03em",
   color: theme.palette.primary.main,
   userSelect: "none",
 }));
 
-export const HeroRoleWrapper = styled(Box)({
-  minHeight: 32,
-  display: "flex",
+export const HeroNameFlourish = styled("svg")(({ theme }) => ({
+  width: "clamp(120px, 15vw, 170px)",
+  height: 16,
+  marginTop: theme.spacing(0.5),
+  alignSelf: "center",
+  [theme.breakpoints.up("md")]: {
+    alignSelf: "flex-start",
+    insetInlineStart: 4,
+  },
+}));
+
+export const HeroRoleWrapper = styled(Box)(({ theme }) => ({
+  display: "inline-flex",
   alignItems: "center",
-  justifyContent: "center",
+  minHeight: 32,
+  padding: `${theme.spacing(0.5)} ${theme.spacing(1.75)}`,
+  borderRadius: 8,
+  border: "1px solid",
+  borderColor: theme.palette.modules.glassBorder,
+  background: alpha(theme.palette.common.white, 0.02),
+  backdropFilter: "blur(12px)",
+  WebkitBackdropFilter: "blur(12px)",
   overflow: "hidden",
-});
+}));
 
 export const HeroRole = styled(Typography)(({ theme }) => ({
-  fontSize: "clamp(15px, 1.8vw, 22px)",
-  fontWeight: 400,
-  color: theme.palette.text.secondary,
-  letterSpacing: "0.06em",
+  fontFamily: "var(--font-jakarta)",
+  fontSize: "clamp(12px, 1.5vw, 15px)",
+  fontWeight: 500,
+  color: theme.palette.text.text,
+  letterSpacing: "0.1em",
+  textTransform: "uppercase",
+  display: "flex",
+  alignItems: "center",
+  gap: theme.spacing(1),
+  "&::before, &::after": {
+    content: '"/"',
+    color: theme.palette.primary.main,
+    fontWeight: 700,
+  },
 }));
 
 export const HeroTagline = styled(Typography)(({ theme }) => ({
@@ -150,7 +246,35 @@ export const HeroTagline = styled(Typography)(({ theme }) => ({
   lineHeight: 1.7,
   maxWidth: 500,
   textAlign: "center",
-  marginTop: theme.spacing(-1),
+  [theme.breakpoints.up("md")]: {
+    textAlign: "start",
+  },
+}));
+
+export const HeroPrimaryButton = styled(Button)(({ theme }) => ({
+  position: "relative",
+  overflow: "hidden",
+  background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 55%, ${theme.palette.primary.dark} 100%)`,
+  boxShadow: `0 12px 32px ${alpha(theme.palette.primary.main, 0.35)}`,
+  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: "-75%",
+    width: "50%",
+    height: "100%",
+    background: `linear-gradient(120deg, transparent, ${alpha(theme.palette.common.white, 0.35)}, transparent)`,
+    transform: "skewX(-20deg)",
+    transition: "transform 0.7s ease",
+  },
+  "&:hover": {
+    boxShadow: `0 16px 40px ${alpha(theme.palette.primary.main, 0.5)}`,
+    transform: "translateY(-2px)",
+  },
+  "&:hover::before": {
+    transform: "skewX(-20deg) translateX(320%)",
+  },
 }));
 
 export const HeroCvButton = styled(Button)(({ theme }) => ({
@@ -180,6 +304,9 @@ export const HeroFooter = styled(Stack)(({ theme }) => ({
   flexWrap: "wrap",
   justifyContent: "center",
   marginTop: theme.spacing(0.5),
+  [theme.breakpoints.up("md")]: {
+    justifyContent: "flex-start",
+  },
 }));
 
 export const HeroEmail = styled("a")(({ theme }) => ({
@@ -231,30 +358,81 @@ export const ScrollIndicator = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  gap: theme.spacing(0.75),
-  animation: "scrollBounce 2.8s ease-in-out infinite",
-  "@keyframes scrollBounce": {
-    "0%, 100%": { transform: "translateX(-50%) translateY(0)" },
-    "50%": { transform: "translateX(-50%) translateY(10px)" },
+  gap: theme.spacing(1),
+  zIndex: 2,
+  [theme.breakpoints.down("sm")]: { display: "none" },
+}));
+
+export const ScrollLabel = styled(Typography)(({ theme }) => ({
+  fontSize: 10,
+  fontWeight: 500,
+  letterSpacing: "0.28em",
+  textTransform: "uppercase",
+  color: alpha(theme.palette.text.secondary, 0.55),
+  userSelect: "none",
+}));
+
+export const ScrollTrack = styled(Box)(({ theme }) => ({
+  position: "relative",
+  width: 1,
+  height: 44,
+  overflow: "hidden",
+  background: alpha(theme.palette.text.primary, 0.12),
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: 14,
+    background: theme.palette.primary.main,
+    animation: "scrollSlide 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite",
+  },
+  "@keyframes scrollSlide": {
+    from: { transform: "translateY(-16px)" },
+    to: { transform: "translateY(48px)" },
+  },
+  "@media (prefers-reduced-motion: reduce)": {
+    "&::after": { animation: "none", top: "50%" },
+  },
+}));
+
+export const HeroImageWrapper = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  bottom: -188,
+  insetInlineEnd: "clamp(16px, 6vw, 146px)",
+  right: -130,
+  zIndex: 1,
+  width: "clamp(260px, 82vw, 840px)",
+  pointerEvents: "none",
+  userSelect: "none",
+  opacity: 0.2,
+  transform: "rotate(22deg)",
+  animation: "sketchDrift 14s ease-in-out infinite alternate",
+  "@keyframes sketchDrift": {
+    from: { transform: "rotate(22deg) translate(0, 0) scale(1)", opacity: 0.16 },
+    to: { transform: "rotate(25deg) translate(-14px, -18px) scale(1.03)", opacity: 0.24 },
   },
   "@media (prefers-reduced-motion: reduce)": { animation: "none" },
-}));
-
-export const ScrollDot = styled(Box)(({ theme }) => ({
-  width: 5,
-  height: 5,
-  borderRadius: "50%",
-  background: alpha(theme.palette.text.primary, 0.3),
-  animation: "dotPulse 2.8s ease-in-out infinite",
-  "@keyframes dotPulse": {
-    "0%, 100%": { opacity: 0.3, transform: "scale(1)" },
-    "50%": { opacity: 1, transform: "scale(1.5)" },
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: "8%",
+    borderRadius: "50%",
+    background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.32)} 0%, ${alpha(theme.palette.primary.dark, 0.12)} 55%, transparent 75%)`,
+    filter: "blur(48px)",
   },
-  "@media (prefers-reduced-motion: reduce)": { animation: "none", opacity: 0.4 },
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
 }));
 
-export const ScrollLine = styled(Box)(({ theme }) => ({
-  width: 1,
-  height: 40,
-  background: `linear-gradient(to bottom, ${alpha(theme.palette.text.primary, 0.22)}, transparent)`,
+export const HeroImage = styled("img")(({ theme }) => ({
+  position: "relative",
+  display: "block",
+  width: "100%",
+  height: "auto",
+  filter: `drop-shadow(0 0 14px ${alpha(theme.palette.primary.main, 0.55)}) drop-shadow(0 0 42px ${alpha(theme.palette.primary.main, 0.3)})`,
+  maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+  WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
 }));
