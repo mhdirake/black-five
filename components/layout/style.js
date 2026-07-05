@@ -16,10 +16,16 @@ export const HeaderRoot = styled(Box)(({ theme }) => ({
   top: 0,
   zIndex: theme.zIndex.appBar,
   display: "grid",
-  gridTemplateColumns: "1fr auto 1fr", 
+  gridTemplateColumns: "1fr auto 1fr",
   alignItems: "center",
   padding: theme.spacing(3, 3),
   pointerEvents: "none",
+  transition: "opacity 0.8s ease",
+
+  "body.intro-active &": {
+    opacity: 0,
+    visibility: "hidden",
+  },
 
   [theme.breakpoints.down("sm")]: {
     padding: theme.spacing(2, 2),
@@ -49,6 +55,14 @@ export const Nav = styled(Stack)(({ theme }) => ({
   borderRadius: 100,
   padding: theme.spacing(0.5),
   boxShadow: `0 8px 32px ${alpha("#000000", 0.45)}`,
+  maxWidth: "calc(100vw - 24px)",
+  overflowX: "auto",
+  scrollbarWidth: "none",
+  "&::-webkit-scrollbar": { display: "none" },
+
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(0.4),
+  },
 }));
 
 export const NavLink = styled(Link, {
@@ -91,5 +105,10 @@ export const NavLink = styled(Link, {
   "&:hover": {
     color: theme.palette.text.primary,
     background: alpha(theme.palette.text.primary, 0.06),
+  },
+
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 12,
+    padding: theme.spacing(0.6, 1.1),
   },
 }));

@@ -6,6 +6,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { useMediaQuery } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import {
   AnimatePresence,
@@ -48,18 +49,26 @@ import {
   HeroSocialDivider,
   HeroSocialLink,
   HeroTagline,
+  CountdownNumberWrap,
+  CountdownRing,
+  CountdownSvg,
+  IntroBackdrop,
+  IntroCountdown,
+  IntroCountdownLabel,
+  IntroCountdownNumber,
   Monogram,
   ScrollIndicator,
   ScrollLabel,
   ScrollTrack,
   SketchArt,
 } from "./style";
-import { MehdiSketch } from "@/assets/icons";
+import { INTRO_DRAW_DURATION, MehdiSketch } from "@/assets/icons";
 
 const MotionBlobLeft = motion(BlobLeft);
 const MotionBlobRight = motion(BlobRight);
 const MotionCursorGlow = motion(CursorGlow);
 const MotionImageWrapper = motion(HeroImageWrapper);
+const MotionIntroBackdrop = motion(IntroBackdrop);
 
 function MagneticButton({ children }) {
   const prefersReducedMotion = useReducedMotion();
@@ -96,6 +105,7 @@ function HeroSection() {
   const hero = dictionary.hero;
   const socials = dictionary.contact.social;
   const [roleIndex, setRoleIndex] = useState(0);
+  const [introDone, setIntroDone] = useState(false);
   const heroRef = useRef(null);
 
   useEffect(() => {
@@ -106,6 +116,36 @@ function HeroSection() {
   }, [hero.roles.length]);
 
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const introTotalSeconds = Math.ceil(INTRO_DRAW_DURATION + 0.4);
+  const [countdown, setCountdown] = useState(introTotalSeconds);
+
+  useEffect(() => {
+    // the sketch is hidden below md — skip the intro there and on reduced motion
+    if (prefersReducedMotion || isMobile) {
+      setIntroDone(true);
+      return;
+    }
+
+    document.body.classList.add("intro-active");
+    window.scrollTo(0, 0);
+
+    const countdownId = setInterval(() => {
+      setCountdown((c) => Math.max(c - 1, 0));
+    }, 1000);
+
+    const doneId = setTimeout(() => {
+      setIntroDone(true);
+      document.body.classList.remove("intro-active");
+    }, (INTRO_DRAW_DURATION + 0.4) * 1000);
+
+    return () => {
+      clearInterval(countdownId);
+      clearTimeout(doneId);
+      document.body.classList.remove("intro-active");
+    };
+  }, [prefersReducedMotion, isMobile]);
+
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const contentY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, -80]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
@@ -134,6 +174,7 @@ function HeroSection() {
       <MotionBlobLeft style={{ y: blobLeftY }} />
       <MotionBlobRight style={{ y: blobRightY }} />
 
+      {introDone && (
       <HeroContainer maxWidth="lg">
         <motion.div style={{ y: contentY, opacity: contentOpacity }}>
         <HeroContent>
@@ -280,23 +321,90 @@ function HeroSection() {
         </HeroContent>
         </motion.div>
       </HeroContainer>
+      )}
+
+      <AnimatePresence>
+        {!introDone && (
+          <MotionIntroBackdrop
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.1, ease: "easeOut" }}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {!introDone && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none" }}
+          >
+            <IntroCountdown aria-hidden="true">
+              <CountdownRing>
+                <CountdownSvg viewBox="0 0 120 120">
+                  <defs>
+                    <linearGradient id="countdownGradient" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                      <stop stopColor={theme.palette.primary.light} />
+                      <stop offset="1" stopColor={theme.palette.primary.dark} />
+                    </linearGradient>
+                  </defs>
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="55"
+                    fill="none"
+                    stroke={alpha(theme.palette.text.primary, 0.08)}
+                    strokeWidth="1.5"
+                  />
+                  <motion.circle
+                    cx="60"
+                    cy="60"
+                    r="55"
+                    fill="none"
+                    stroke="url(#countdownGradient)"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    transform="rotate(-90 60 60)"
+                    initial={{ pathLength: 1 }}
+                    animate={{ pathLength: 0 }}
+                    transition={{ duration: INTRO_DRAW_DURATION + 0.4, ease: "linear" }}
+                  />
+                </CountdownSvg>
+                <CountdownNumberWrap>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={countdown}
+                      initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, y: -30, filter: "blur(6px)" }}
+                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <IntroCountdownNumber>{countdown}</IntroCountdownNumber>
+                    </motion.div>
+                  </AnimatePresence>
+                </CountdownNumberWrap>
+              </CountdownRing>
+              <IntroCountdownLabel>{hero.introLabel}</IntroCountdownLabel>
+            </IntroCountdown>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <MotionImageWrapper aria-hidden="true" style={{ y: sketchParallaxY }}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
-        >
-          <SketchArt>
-            <MehdiSketch />
-          </SketchArt>
-        </motion.div>
+        <SketchArt>
+          <MehdiSketch mode={introDone ? "loop-continue" : "intro"} />
+        </SketchArt>
       </MotionImageWrapper>
 
+      {introDone && (
       <ScrollIndicator>
         <ScrollLabel>{hero.scroll}</ScrollLabel>
         <ScrollTrack />
       </ScrollIndicator>
+      )}
 
       <GrainOverlay />
     </HeroRoot>

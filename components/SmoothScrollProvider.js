@@ -72,6 +72,12 @@ function SmoothScrollProvider({ children }) {
     };
 
     const handleWheel = (event) => {
+      // scroll is locked while the hero intro animation is running
+      if (document.body.classList.contains("intro-active")) {
+        event.preventDefault();
+        return;
+      }
+
       if (event.ctrlKey || shouldIgnoreWheel(event)) return;
 
       event.preventDefault();

@@ -35,6 +35,7 @@ export const messages = {
         secondary: "Download CV",
       },
       scroll: "Scroll",
+      introLabel: "Sketching",
     },
     about: {
       title: "About Me",
@@ -214,6 +215,7 @@ export const messages = {
         secondary: "دانلود رزومه",
       },
       scroll: "اسکرول",
+      introLabel: "در حال طراحی",
     },
     about: {
       title: "درباره من",

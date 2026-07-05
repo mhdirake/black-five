@@ -19,6 +19,11 @@ body {
   overflow-x: hidden;
 }
 
+/* intro sketch animation: lock scroll until it completes */
+body.intro-active {
+  overflow: hidden;
+}
+
 * {
   box-sizing: border-box;
   letter-spacing: 0 !important;

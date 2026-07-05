@@ -397,12 +397,79 @@ export const ScrollTrack = styled(Box)(({ theme }) => ({
   },
 }));
 
+export const IntroBackdrop = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  inset: 0,
+  zIndex: 2,
+  background: alpha(theme.palette.common.black, 0.72),
+  backdropFilter: "blur(6px)",
+  WebkitBackdropFilter: "blur(6px)",
+  pointerEvents: "none",
+}));
+
+export const IntroCountdown = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: "50%",
+  transform: "translateY(-50%)",
+  insetInlineStart: "clamp(24px, 12vw, 220px)",
+  zIndex: 3,
+  pointerEvents: "none",
+  userSelect: "none",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: theme.spacing(2.5),
+}));
+
+export const CountdownRing = styled(Box)({
+  position: "relative",
+  width: "clamp(150px, 15vw, 210px)",
+  aspectRatio: "1",
+});
+
+export const CountdownSvg = styled("svg")(({ theme }) => ({
+  position: "absolute",
+  inset: 0,
+  width: "100%",
+  height: "100%",
+  overflow: "visible",
+  filter: `drop-shadow(0 0 14px ${alpha(theme.palette.primary.main, 0.45)})`,
+}));
+
+export const CountdownNumberWrap = styled(Box)({
+  position: "absolute",
+  inset: 0,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  overflow: "hidden",
+  borderRadius: "50%",
+});
+
+export const IntroCountdownNumber = styled("span")(({ theme }) => ({
+  fontFamily: "var(--font-jakarta, sans-serif)",
+  fontSize: "clamp(56px, 5.5vw, 84px)",
+  fontWeight: 200,
+  lineHeight: 1,
+  letterSpacing: "-0.04em",
+  color: theme.palette.text.primary,
+}));
+
+export const IntroCountdownLabel = styled("span")(({ theme }) => ({
+  fontSize: 12,
+  fontWeight: 500,
+  letterSpacing: "0.34em",
+  textTransform: "uppercase",
+  textAlign: "center",
+  color: alpha(theme.palette.text.secondary, 0.75),
+}));
+
 export const HeroImageWrapper = styled(Box)(({ theme }) => ({
   position: "absolute",
   bottom: -500,
   insetInlineEnd: "clamp(16px, 6vw, 146px)",
   right: -600,
-  zIndex: 1,
+  zIndex: 3,
   width: "clamp(520px, 145vw, 1680px)",
   pointerEvents: "none",
   userSelect: "none",
@@ -420,6 +487,11 @@ export const HeroImageWrapper = styled(Box)(({ theme }) => ({
       to: { opacity: 1, transform: "scale(1.12)" },
     },
     "@media (prefers-reduced-motion: reduce)": { animation: "none" },
+  },
+  [theme.breakpoints.down("lg")]: {
+    width: "115vw",
+    right: -320,
+    bottom: -320,
   },
   [theme.breakpoints.down("md")]: {
     display: "none",

@@ -21,7 +21,32 @@ const drawTransition = {
   fillOpacity: { duration: 44, ease: "easeInOut", repeat: Infinity, times: [0, 0.4, 0.55, 0.72, 0.88, 1] },
 };
 
-export const MehdiSketch = () => {
+// One-shot draw used on first load — total ≈ INTRO_DRAW_DURATION seconds.
+export const INTRO_DRAW_DURATION = 4.6;
+
+const introKeyframes = {
+  pathLength: 1,
+  fillOpacity: [0, 0, 0.95],
+};
+
+const introTransition = {
+  pathLength: { duration: 4, ease: "easeInOut" },
+  fillOpacity: { duration: INTRO_DRAW_DURATION, ease: "easeOut", times: [0, 0.72, 1] },
+};
+
+// Loop that continues from the fully drawn state (after the intro pass):
+// hold → fade fill → undraw → redraw → fill back in.
+const continueKeyframes = {
+  pathLength: [1, 1, 0, 1, 1],
+  fillOpacity: [0.95, 0.95, 0, 0, 0.95],
+};
+
+const continueTransition = {
+  pathLength: { duration: 44, ease: "easeInOut", repeat: Infinity, times: [0, 0.2, 0.55, 0.9, 1] },
+  fillOpacity: { duration: 44, ease: "easeInOut", repeat: Infinity, times: [0, 0.22, 0.4, 0.88, 1] },
+};
+
+export const MehdiSketch = ({ mode = "loop" }) => {
   const prefersReducedMotion = useReducedMotion();
 
   if (prefersReducedMotion) {
@@ -34,6 +59,11 @@ export const MehdiSketch = () => {
     );
   }
 
+  const isIntro = mode === "intro";
+  const isContinue = mode === "loop-continue";
+  const animate = isIntro ? introKeyframes : isContinue ? continueKeyframes : drawKeyframes;
+  const transition = isIntro ? introTransition : isContinue ? continueTransition : drawTransition;
+
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2508 2508">
       {SKETCH_PATHS.map((d, index) => (
@@ -44,8 +74,8 @@ export const MehdiSketch = () => {
           strokeWidth={1.2}
           fill="#fff"
           initial={{ pathLength: 0, fillOpacity: 0 }}
-          animate={drawKeyframes}
-          transition={drawTransition}
+          animate={animate}
+          transition={transition}
         />
       ))}
     </svg>
