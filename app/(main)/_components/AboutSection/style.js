@@ -6,6 +6,10 @@ import { alpha } from "@mui/material/styles";
 export const AboutRoot = styled(Box)(({ theme }) => ({
   position: "relative",
   padding: theme.spacing(14, 0),
+
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(9, 0),
+  },
   background: theme.palette.background.default,
 
   "&::before": {

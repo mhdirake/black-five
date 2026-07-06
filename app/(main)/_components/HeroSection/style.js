@@ -11,7 +11,7 @@ const noiseSvg = encodeURIComponent(
 
 export const HeroRoot = styled(Box)(({ theme }) => ({
   position: "relative",
-  minHeight: "100vh",
+  minHeight: "var(--app-height, 100vh)",
   display: "flex",
   alignItems: "center",
   overflow: "hidden",
@@ -99,10 +99,14 @@ export const BlobRight = styled(Box)(({ theme }) => ({
   "@media (prefers-reduced-motion: reduce)": { animation: "none" },
 }));
 
-export const HeroContainer = styled(Container)({
+export const HeroContainer = styled(Container)(({ theme }) => ({
   position: "relative",
   zIndex: 1,
-});
+  [theme.breakpoints.down("sm")]: {
+    paddingTop: theme.spacing(9),
+    paddingBottom: theme.spacing(4),
+  },
+}));
 
 export const HeroContent = styled(Stack)(({ theme }) => ({
   alignItems: "center",
@@ -114,6 +118,9 @@ export const HeroContent = styled(Stack)(({ theme }) => ({
     alignItems: "flex-start",
     textAlign: "start",
     margin: 0,
+  },
+  [theme.breakpoints.down("sm")]: {
+    gap: theme.spacing(2.5),
   },
 }));
 
